@@ -8,7 +8,7 @@ public class Game {
         this.board = new Board(boardSize);
     }
 
-    public Object getBoard() {
+    public Board getBoard() {
         return this.board;
     }
 

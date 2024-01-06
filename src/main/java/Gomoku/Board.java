@@ -20,7 +20,23 @@ public class Board {
         this.grid[x][y].setColor(color);
     }
 
-    // Method to check if a player has won
+    // Method to check if a player has won (HARD)
+
+
     // Method to display the board
+    public void displayBoard() {
+        for (Node[] nodes : grid) {
+            for (Node node : nodes) {
+                switch (node.getColor()) {
+                    case BLACK -> System.out.print("B ");  // Hollow dot for black
+                    case WHITE -> System.out.print("W ");  // Full dot for white
+                    default -> System.out.print(". ");  // Dot for empty
+                }
+            }
+            System.out.println();
+        }
+    }
+
+
     // ...
 }
