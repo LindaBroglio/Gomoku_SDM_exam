@@ -15,7 +15,7 @@ public class Node {
         this.y = y;
     }
 
-    public void set_color(Color color) {
+    public void setColor(Color color) {
         this.color = color;
     }
 

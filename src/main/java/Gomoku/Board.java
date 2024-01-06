@@ -16,6 +16,10 @@ public class Board {
     }
 
     // Method to place a piece on the board
+    public void placeStone(int x, int y, Color color) {
+        this.grid[x][y].setColor(color);
+    }
+
     // Method to check if a player has won
     // Method to display the board
     // ...

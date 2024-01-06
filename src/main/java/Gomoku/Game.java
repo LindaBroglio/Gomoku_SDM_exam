@@ -1,7 +1,7 @@
 package Gomoku;
 
 public class Game {
-    private Board board;
+    private final Board board;
 
     // Constructor
     public Game(int boardSize) {

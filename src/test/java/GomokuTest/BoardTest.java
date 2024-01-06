@@ -18,7 +18,14 @@ public class BoardTest {
     @Test
     public void testChangingNodeColor() {
         Board board = new Board(5);
-        board.getGrid()[0][0].set_color(Color.BLACK);
+        board.getGrid()[0][0].setColor(Color.BLACK);
+        assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
+    }
+
+    @Test
+    public void placeStoneTest() {
+        Board board = new Board(5);
+        board.placeStone(0, 0, Color.BLACK);
         assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
 }

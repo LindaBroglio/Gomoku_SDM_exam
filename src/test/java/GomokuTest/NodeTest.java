@@ -13,4 +13,11 @@ public class NodeTest {
         assertEquals(1, node.getX_coordinate());
         assertEquals(2, node.getY_coordinate());
     }
+
+    @Test
+    void setColorTest() {
+        Node node = new Node(0, 0);
+        node.setColor(Color.WHITE);
+        assertEquals(Color.WHITE, node.getColor());
+    }
 }
