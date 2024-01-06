@@ -1,0 +1,15 @@
+To do:
+
+- allow user to input moves from terminal
+- allow user to quit
+- determine winner
+  - define neighbouring nodes
+- assess illegal moves
+
+Exceptions:
+- illegal board size
+- illegal move
+    - out of board
+    - already occupied node
+
+...
