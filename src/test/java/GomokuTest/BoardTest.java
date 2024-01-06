@@ -3,6 +3,7 @@ package GomokuTest;
 import Gomoku.Board;
 import Gomoku.Color;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -12,5 +13,12 @@ public class BoardTest {
         assertEquals(5, board.getGrid().length);
         assertEquals(5, board.getGrid()[0].length);
         assertEquals(Color.EMPTY, board.getGrid()[0][0].getColor());
+    }
+
+    @Test
+    public void testChangingNodeColor() {
+        Board board = new Board(5);
+        board.getGrid()[0][0].set_color(Color.BLACK);
+        assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
 }

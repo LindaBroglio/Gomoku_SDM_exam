@@ -1,16 +1,14 @@
 package Gomoku;
 
 public class Board {
-    private Node[][] grid;
+    private final Node[][] grid;
 
     // Constructor
     public Board(int size) {
         this.grid = new Node[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
                 this.grid[i][j] = new Node(i, j);
-            }
-        }
     }
 
     public Node[][] getGrid() {
