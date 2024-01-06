@@ -8,6 +8,10 @@ public class Game {
         this.board = new Board(boardSize);
     }
 
+    public Object getBoard() {
+        return this.board;
+    }
+
     // Method to start the game
     // Method to end the game
     // Method to switch turns

@@ -13,6 +13,10 @@ public class Board {
         }
     }
 
+    public Node[][] getGrid() {
+        return this.grid;
+    }
+
     // Method to place a piece on the board
     // Method to check if a player has won
     // Method to display the board

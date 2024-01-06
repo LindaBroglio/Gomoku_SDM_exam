@@ -29,6 +29,18 @@ public class Node {
         return this.color == south_east_neighbour.color;
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+
+    public int getX_coordinate() {
+        return this.x_coordinate;
+    }
+
+    public int getY_coordinate() {
+        return this.y_coordinate;
+    }
+
     // Getter and Setter methods for color, x_coordinate, and y_coordinate
     // ...
 }
