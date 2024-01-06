@@ -34,11 +34,11 @@ public class Node {
     }
 
     public int getX_coordinate() {
-        return this.x_coordinate;
+        return this.x;
     }
 
     public int getY_coordinate() {
-        return this.y_coordinate;
+        return this.y;
     }
 
     // Getter and Setter methods for color, x_coordinate, and y_coordinate
