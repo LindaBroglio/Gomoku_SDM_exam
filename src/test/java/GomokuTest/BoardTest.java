@@ -37,35 +37,26 @@ public class BoardTest {
     @Test
     public void placeStoneOutOfBoundsTest() {
         Board board = new Board(5);
-        Assertions.assertThrows(OutOfBoardException.class, () -> {
-            board.placeStone(6, 6, Color.BLACK);
-        });
+        Assertions.assertThrows(OutOfBoardException.class, () -> board.placeStone(6, 6, Color.BLACK));
     }
 
     @Test
-    public void placeStoneTakenNodeTest() throws OutOfBoardException, TakenNodeException {
+    public void placeStoneTakenNodeTest() {
         Board board = new Board(5);
-        board.placeStone(0, 0, Color.BLACK);
         Assertions.assertThrows(TakenNodeException.class, () -> {
+            board.placeStone(0, 0, Color.BLACK);
             board.placeStone(0, 0, Color.WHITE);
         });
     }
 
     @Test
     public void DisplayBoardTest() throws OutOfBoardException, TakenNodeException {
-        // Create a new board
         Board board = new Board(5);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
-
-        // Prepare to capture the console output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
-
-        // Call the method
         board.displayBoard();
-
-        // Check the output
         String ls = System.lineSeparator();
         String expectedOutput = "B W . . . " + ls +
                                 ". . . . . " + ls +
