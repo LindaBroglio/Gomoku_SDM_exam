@@ -32,7 +32,7 @@ public class Board {
         return this.grid[x][y].getColor() != Color.EMPTY;
     }
 
-    private Integer boardSize() {
+    public Integer boardSize() {
         return this.grid.length;
     }
 
@@ -52,5 +52,5 @@ public class Board {
             System.out.println();
         }
     }
-    // ...
+
 }

@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Game {
     private final Board board;
     private final Scanner scanner;
-    private Integer turn = 1;
+    private Integer turn = 0;
 
     // Constructor
     public Game(int boardSize) {
@@ -20,25 +20,62 @@ public class Game {
 
     // Method to start the game
     public void startGame() {
-        while (true) {
-            displayBoardAndPromptNextTurn();
+        displayBoard();
+        while (gameIsOn()) {
+            PromptNextTurn();
             try {
                 makeMove();
             } catch (InvalidFormatException | IllegalMoveException e) {
                 System.out.println(e.getMessage());
+                turn -= 1;
                 continue;
             } catch (QuitGameException e) {
                 System.out.println(e.getMessage());
                 break;
             }
-            turn += 1;
+            displayBoard();
+        }
+        displayResultMessage();
+    }
+
+    private boolean isThereAWinner() {
+        return turn == 5;
+    }
+
+    private void displayResultMessage() {
+        //white won
+        if (isThereAWinner() && isWhiteTurn()) {
+            System.out.println("Gomoku! White wins!");
+            return;
+        } else if (isThereAWinner() && !isWhiteTurn()){
+            System.out.println("Gomoku! Black wins!");
+            return;
+        }
+        if (!boardIsNotFull()) {
+            System.out.println("Game ends in a draw!");
         }
     }
 
-    private void displayBoardAndPromptNextTurn() {
+    private boolean isWhiteTurn(){
+        return turn % 2 == 0;
+    }
+
+    private boolean gameIsOn(){
+        return (boardIsNotFull() && !isThereAWinner());
+    }
+    private boolean boardIsNotFull(){
+        Integer boardSize = this.board.boardSize();
+        return turn < boardSize * boardSize;
+    }
+
+    private void displayBoard() {
         this.board.displayBoard();
+    }
+
+    private void PromptNextTurn() {
+        turn += 1;
         String yourMove = "enter your move (e.g. 3 4):";
-        System.out.println((turn % 2 == 0 ? "White turn: " : "Black turn: ") + yourMove);
+        System.out.println((isWhiteTurn() ? "White turn: " : "Black turn: ") + yourMove);
     }
 
     private void makeMove() throws InvalidFormatException, QuitGameException, IllegalMoveException {

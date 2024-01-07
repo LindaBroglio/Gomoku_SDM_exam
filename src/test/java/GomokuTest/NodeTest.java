@@ -15,9 +15,16 @@ public class NodeTest {
     }
 
     @Test
+    void getColorTest() {
+        Node node = new Node(0, 0);
+        assertEquals(Color.EMPTY, node.getColor());
+    }
+
+    @Test
     void setColorTest() {
         Node node = new Node(0, 0);
         node.setColor(Color.WHITE);
         assertEquals(Color.WHITE, node.getColor());
     }
+
 }
