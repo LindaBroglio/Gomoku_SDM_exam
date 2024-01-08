@@ -8,6 +8,8 @@ public class Game {
     private final Scanner scanner;
     private Integer turn = 0;
 
+    private Integer x, y;
+
     // Constructor
     public Game(int boardSize) {
         this.board = new Board(boardSize);
@@ -25,17 +27,24 @@ public class Game {
             PromptNextTurn();
             try {
                 makeMove();
+                checkWinner();
             } catch (InvalidFormatException | IllegalMoveException e) {
                 System.out.println(e.getMessage());
                 turn -= 1;
                 continue;
-            } catch (QuitGameException e) {
+            } catch (QuitGameException | GameWonException e) {
                 System.out.println(e.getMessage());
                 break;
             }
             displayBoard();
         }
         displayResultMessage();
+    }
+
+    private void checkWinner() throws GameWonException {
+        // conosce tutto
+        // chiama un metodo di Board che vuole x e y
+        if (this.board.areThereFiveConsecutive(x, y)) throw new GameWonException(turn);
     }
 
     private boolean isThereAWinner() {
@@ -80,8 +89,7 @@ public class Game {
 
     private void makeMove() throws InvalidFormatException, QuitGameException, IllegalMoveException {
         Integer[] move = getMoveFromTerminal();
-        int x = move[0];
-        int y = move[1];
+        x = move[0]; y = move[1];
         this.board.placeStone(x - 1, y - 1, (turn % 2 == 0) ? Color.WHITE : Color.BLACK);
     }
 
@@ -104,7 +112,6 @@ public class Game {
     }
 
     private Integer[] parseInputToIntegers(String[] inputs) throws InvalidFormatException {
-        int x, y;
         try {
             x = Integer.parseInt(inputs[0]);
             y = Integer.parseInt(inputs[1]);
