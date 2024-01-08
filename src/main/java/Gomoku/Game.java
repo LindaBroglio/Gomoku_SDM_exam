@@ -11,8 +11,8 @@ public class Game {
     private Integer x, y;
 
     // Constructor
-    public Game(int boardSize) {
-        this.board = new Board(boardSize);
+    public Game(Integer boardSize, Integer howManyToWin) {
+        this.board = new Board(boardSize, howManyToWin);
         this.scanner = new Scanner(System.in);
     }
 
@@ -44,7 +44,7 @@ public class Game {
     private void checkWinner() throws GameWonException {
         // conosce tutto
         // chiama un metodo di Board che vuole x e y
-        if (this.board.areThereFiveConsecutive(x, y)) throw new GameWonException(turn);
+        if (this.board.enoughConsecutive(x, y)) throw new GameWonException(turn);
     }
 
     private boolean isThereAWinner() {
