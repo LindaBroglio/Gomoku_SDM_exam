@@ -40,13 +40,22 @@ public class Board {
 
     // Method to check if a player has won (HARD)
     public boolean enoughConsecutive(Integer i, Integer j) {
-        return horizontalCheck(i, j);
+        return horizontalCheck(i, j) | verticalCheck(i,j);
     }
 
     private boolean horizontalCheck(Integer i, Integer j) {
         Integer count = 0;
         for (Integer index : indices(j)) {
             if (sameColor(i, j, i, index)) count++;
+            else count = 0;
+        }
+        return count >= howManyToWin;
+    }
+
+    private boolean verticalCheck(Integer i, Integer j) {
+        Integer count = 0;
+        for (Integer index : indices(i)) {
+            if (sameColor(i, j, index, j)) count++;
             else count = 0;
         }
         return count >= howManyToWin;
