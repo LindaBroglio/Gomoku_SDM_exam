@@ -4,10 +4,12 @@ import Gomoku.Exceptions.InputExceptions.*;
 
 public class Board {
     private final Node[][] grid;
+    private final Integer howManyToWin;
 
     // Constructor
-    public Board(int size) {
+    public Board(int size, Integer howManyToWin) {
         this.grid = new Node[size][size];
+        this.howManyToWin = howManyToWin;
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
                 this.grid[i][j] = new Node(i, j);
@@ -37,9 +39,29 @@ public class Board {
     }
 
     // Method to check if a player has won (HARD)
-    public boolean areThereFiveConsecutive(Integer x, Integer y) {
-        // la fucking logica
-        return true;
+    public boolean enoughConsecutive(Integer i, Integer j) {
+        return horizontalCheck(i, j);
+    }
+
+    private boolean horizontalCheck(Integer i, Integer j) {
+        Integer count = 0;
+        for (Integer index : indices(j)) {
+            if (sameColor(i, j, i, index)) count++;
+            else count = 0;
+        }
+        return count >= howManyToWin;
+    }
+
+    public Integer[] indices(int index) {
+        int start = Math.max(0, index - howManyToWin);
+        int end = Math.min(boardSize() - 1, index + howManyToWin);
+        Integer[] range = new Integer[end - start + 1]; // Corrected size
+        for (int i = start; i <= end; i++) range[i - start] = i; // Corrected index
+        return range;
+    }
+
+    private boolean sameColor(Integer i, Integer j, Integer k, Integer l) {
+        return this.grid[i][j].getColor() == this.grid[k][l].getColor();
     }
 
     // Method to display the board

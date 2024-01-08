@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     @Test
     public void testGame() {
-        Game game = new Game(5);
+        Game game = new Game(5, 3);
         assertNotNull(game.getBoard());
     }
 }
