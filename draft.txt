@@ -4,6 +4,7 @@ V - allow user to quit
 - determine winner
   - define neighbouring nodes
 V - assess illegal moves
+- add numbers on board
 
 Exceptions:
 V - illegal board size
@@ -16,6 +17,7 @@ Test:
 - does it ask again when white writes a typo --> is it still white turn
 - does the right team win --> does black win at turn 5
 - does it end in draw when board is full and there is no winner
+- tests that use System.setIn(in)
 
 Refactoring ideas:
 - create a class containing static methods and members for board specification
