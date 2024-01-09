@@ -38,13 +38,14 @@ public class Game {
             }
             displayBoard();
         }
+        displayBoard();
         displayResultMessage();
     }
 
     private void checkWinner() throws GameWonException {
         // conosce tutto
         // chiama un metodo di Board che vuole x e y
-        if (this.board.enoughConsecutive(x, y)) throw new GameWonException(turn);
+        if (this.board.enoughConsecutive(x-1, y-1)) throw new GameWonException(turn);
     }
 
     private boolean isThereAWinner() {
@@ -70,7 +71,7 @@ public class Game {
     }
 
     private boolean gameIsOn(){
-        return (boardIsNotFull() && !isThereAWinner());
+        return (boardIsNotFull());
     }
     private boolean boardIsNotFull(){
         Integer boardSize = this.board.boardSize();

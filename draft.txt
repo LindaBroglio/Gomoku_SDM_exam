@@ -1,11 +1,9 @@
 To do:
-
 V - allow user to input moves from terminal
 V - allow user to quit
 - determine winner
   - define neighbouring nodes
 V - assess illegal moves
-
 
 Exceptions:
 V - illegal board size
@@ -21,3 +19,6 @@ Test:
 
 Refactoring ideas:
 - create a class containing static methods and members for board specification
+
+Add:
+- variant where +5 stones does not count
