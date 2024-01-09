@@ -38,35 +38,60 @@ public class Board {
         return this.grid.length;
     }
 
-    // Method to check if a player has won (HARD)
     public boolean enoughConsecutive(Integer i, Integer j) {
-        return horizontalCheck(i, j) | verticalCheck(i,j);
+        return horizontalCheck(i, j) |
+                verticalCheck(i, j) |
+                diagonalCheck(i, j, true) |
+                diagonalCheck(i, j, false);
     }
 
     private boolean horizontalCheck(Integer i, Integer j) {
-        Integer count = 0;
-        for (Integer index : indices(j)) {
+        int count = 0;
+        for (Integer index : getOrthogonalIndices(j)) {
             if (sameColor(i, j, i, index)) count++;
             else count = 0;
+            if (count >= howManyToWin) return true;
         }
-        return count >= howManyToWin;
+        return false;
     }
 
     private boolean verticalCheck(Integer i, Integer j) {
-        Integer count = 0;
-        for (Integer index : indices(i)) {
+        int count = 0;
+        for (Integer index : getOrthogonalIndices(i)) {
             if (sameColor(i, j, index, j)) count++;
             else count = 0;
+            if (count >= howManyToWin) return true;
         }
-        return count >= howManyToWin;
+        return false;
     }
 
-    public Integer[] indices(int index) {
+    private boolean diagonalCheck(Integer i, Integer j, boolean isMainDiagonal) {
+        Integer[] rowIndices = getDiagonalIndices(i);
+        Integer[] colIndices = getDiagonalIndices(j);
+        int count = 0;
+        for (int k = 0; k < Math.min(rowIndices.length, colIndices.length); k++) {
+            int colIndex = isMainDiagonal ? colIndices[k] : colIndices[colIndices.length - 1 - k];
+            if (sameColor(i, j, rowIndices[k], colIndex)) count++;
+            else count = 0;
+            if (count >= howManyToWin) return true;
+        }
+        return false;
+    }
+
+    private Integer[] getOrthogonalIndices(Integer index) {
         int start = Math.max(0, index - howManyToWin);
         int end = Math.min(boardSize() - 1, index + howManyToWin);
-        Integer[] range = new Integer[end - start + 1]; // Corrected size
-        for (int i = start; i <= end; i++) range[i - start] = i; // Corrected index
-        return range;
+        Integer[] Range = new Integer[end - start + 1];
+        for (int i = start; i <= end; i++) Range[i - start] = i;
+        return Range;
+    }
+
+    private Integer[] getDiagonalIndices(Integer index) {
+        int start = Math.max(0, index - howManyToWin + 1);
+        int end = Math.min(boardSize() - 1, index + howManyToWin - 1);
+        Integer[] Range = new Integer[end - start + 1];
+        for (int k = start; k <= end; k++) Range[k - start] = k;
+        return Range;
     }
 
     private boolean sameColor(Integer i, Integer j, Integer k, Integer l) {
@@ -86,5 +111,4 @@ public class Board {
             System.out.println();
         }
     }
-
 }
