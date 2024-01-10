@@ -23,22 +23,12 @@ public class Board {
         return this.grid;
     }
 
-    public void placeStone(Integer x, Integer y, Color color) throws OutOfBoardException, TakenNodeException {
-        if (outOfBounds(x, y)) throw new OutOfBoardException("The coordinates are outside the board.");
-        if (nodeIsTaken(x, y)) throw new TakenNodeException("The node is already taken.");
+    public void placeStone(Integer x, Integer y, Color color)  {
         this.grid[x][y].setColor(color);
     }
 
-    private boolean outOfBounds(Integer x, Integer y) {
-        return x < 0 || x >= boardSize() || y < 0 || y >= boardSize();
-    }
-
-    private boolean nodeIsTaken(Integer x, Integer y) {
-        return nodeColor(x,y) != Color.EMPTY;
-    }
-
     public boolean isCurrentStonePartOfAWinningStreak(Integer i, Integer j) {
-        return checkInAllDirections(i,j);
+        return checkInAllDirections(i, j);
     }
 
     private boolean checkInAllDirections(Integer i, Integer j){
@@ -98,14 +88,13 @@ public class Board {
     }
 
     private boolean sameColor(Integer i, Integer j, Integer k, Integer l) {
-        return nodeColor(i, j) == nodeColor(k,l);
+        return nodeColor(i, j) == nodeColor(k, l);
     }
 
     private Color nodeColor(Integer i, Integer j) {
         return this.grid[i][j].getColor();
     }
 
-    // Method to display the board
     public void displayBoard() {
         for (Node[] nodes : grid) {
             for (Node node : nodes) {

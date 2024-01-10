@@ -1,4 +1,4 @@
-package Gomoku.Exceptions.InputExceptions;
+package Gomoku.Exceptions;
 
 public class GameWonException extends Exception {
     public GameWonException(int turn) {
