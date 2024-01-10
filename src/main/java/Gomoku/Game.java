@@ -10,15 +10,12 @@ import static Gomoku.utilities.GameSpecifications.*;
 
 public class Game {
     private final Board board;
-    private final Scanner scanner;
     private Integer turn = 0;
-    private Integer x, y;
     private Move move;
 
     // Constructor
     public Game(Integer boardSize, Integer howManyToWin) {
         this.board = new Board();
-        this.scanner = new Scanner(System.in);
         this.move = new Move(board);
     }
 
@@ -36,7 +33,7 @@ public class Game {
                 move.readMove(turn);
                 move.checkIfLegalMove();
                 move.makeMove(turn);
-                checkWinner();
+                move.checkWinner(turn);
             } catch (InvalidFormatException | IllegalMoveException e) {
                 System.out.println(e.getMessage());
                 turn -= 1;
@@ -50,9 +47,6 @@ public class Game {
         displayBoard();
     }
 
-    private void checkWinner() throws GameWonException {
-        if (this.board.isCurrentStonePartOfAWinningStreak(x-1, y-1)) throw new GameWonException(turn);
-    }
     private boolean gameIsOn(){
         return (boardIsNotFull());
     }
