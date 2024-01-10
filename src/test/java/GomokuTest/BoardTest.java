@@ -62,7 +62,7 @@ public class BoardTest {
         board.placeStone(0, 2, Color.BLACK);
         board.placeStone(0, 3, Color.BLACK);
         board.placeStone(0, 4, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(0, 2));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, 2));
     }
 
     @ParameterizedTest
@@ -73,7 +73,7 @@ public class BoardTest {
         board.placeStone(0, 2, Color.BLACK);
         board.placeStone(0, 3, Color.BLACK);
         board.placeStone(0, 4, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(0, index));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, index));
     }
 
     @ParameterizedTest
@@ -84,7 +84,7 @@ public class BoardTest {
         board.placeStone(2, 0, Color.BLACK);
         board.placeStone(3, 0, Color.WHITE);
         board.placeStone(4, 0, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(index, 0));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
     }
 
     @ParameterizedTest
@@ -93,7 +93,7 @@ public class BoardTest {
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
         board.placeStone(3, 3, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(index, index));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
     }
 
     @ParameterizedTest
@@ -102,7 +102,7 @@ public class BoardTest {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(index, index));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
     }
 
     @ParameterizedTest
@@ -111,7 +111,7 @@ public class BoardTest {
         board.placeStone(4, 0, Color.BLACK);
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(4 - index, index));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4 - index, index));
     }
 
     @Test
@@ -120,15 +120,15 @@ public class BoardTest {
             for (int j = 0; j < boardSize(); j++)
                 if ((i + j) % 2 == 0) board.placeStone(i, j, Color.WHITE);
                 else board.placeStone(i, j, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(0,0));
-        Assertions.assertTrue(board.enoughConsecutive(0,1));
-        Assertions.assertTrue(board.enoughConsecutive(0,3));
-        Assertions.assertTrue(board.enoughConsecutive(0,4));
-        Assertions.assertTrue(board.enoughConsecutive(4,0));
-        Assertions.assertTrue(board.enoughConsecutive(4,1));
-        Assertions.assertTrue(board.enoughConsecutive(4,3));
-        Assertions.assertTrue(board.enoughConsecutive(4,4));
-        Assertions.assertTrue(board.enoughConsecutive(2,2));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,0));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,1));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,3));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,4));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,0));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,1));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,3));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,4));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
 
     }
 
@@ -146,10 +146,10 @@ public class BoardTest {
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(3, 2, Color.BLACK);
         board.placeStone(3, 3, Color.BLACK);
-        Assertions.assertFalse(board.enoughConsecutive(2,2));
+        Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(2,2));
         // fill center
         board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(2,2));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
     }
 
     @ParameterizedTest
@@ -167,7 +167,7 @@ public class BoardTest {
         board.placeStone(2, 0, Color.BLACK);
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(4, 2, Color.BLACK);
-        Assertions.assertTrue(board.enoughConsecutive(index, index));
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
     }
 
     @Test

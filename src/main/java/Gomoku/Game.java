@@ -49,7 +49,7 @@ public class Game {
     private void checkWinner() throws GameWonException {
         // conosce tutto
         // chiama un metodo di Board che vuole x e y
-        if (this.board.enoughConsecutive(x-1, y-1)) throw new GameWonException(turn);
+        if (this.board.isCurrentStonePartOfAWinningStreak(x-1, y-1)) throw new GameWonException(turn);
     }
 
     private boolean isThereAWinner() {

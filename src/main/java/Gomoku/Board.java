@@ -2,17 +2,18 @@ package Gomoku;
 
 import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.utilities.Color;
-import Gomoku.utilities.GameSpecifications;
 
-import static Gomoku.utilities.GameSpecifications.boardSize;
-import static Gomoku.utilities.GameSpecifications.howManyToWin;
+import static Gomoku.utilities.GameSpecifications.*;
 
 public class Board {
     private final Node[][] grid;
 
-    // Constructor
     public Board() {
         this.grid = new Node[boardSize()][boardSize()];
+        initializeGrid();
+    }
+
+    private void initializeGrid(){
         for (int i = 0; i < boardSize(); i++)
             for (int j = 0; j < boardSize(); j++)
                 this.grid[i][j] = new Node();
@@ -22,7 +23,6 @@ public class Board {
         return this.grid;
     }
 
-    // Method to place a piece on the board
     public void placeStone(Integer x, Integer y, Color color) throws OutOfBoardException, TakenNodeException {
         if (outOfBounds(x, y)) throw new OutOfBoardException("The coordinates are outside the board.");
         if (nodeIsTaken(x, y)) throw new TakenNodeException("The node is already taken.");
@@ -34,11 +34,14 @@ public class Board {
     }
 
     private boolean nodeIsTaken(Integer x, Integer y) {
-        return this.grid[x][y].getColor() != Color.EMPTY;
+        return nodeColor(x,y) != Color.EMPTY;
     }
 
+    public boolean isCurrentStonePartOfAWinningStreak(Integer i, Integer j) {
+        return checkInAllDirections(i,j);
+    }
 
-    public boolean enoughConsecutive(Integer i, Integer j) {
+    private boolean checkInAllDirections(Integer i, Integer j){
         return horizontalCheck(i, j) |
                 verticalCheck(i, j) |
                 diagonalCheck(i, j, true) |
@@ -95,7 +98,11 @@ public class Board {
     }
 
     private boolean sameColor(Integer i, Integer j, Integer k, Integer l) {
-        return this.grid[i][j].getColor() == this.grid[k][l].getColor();
+        return nodeColor(i, j) == nodeColor(k,l);
+    }
+
+    private Color nodeColor(Integer i, Integer j) {
+        return this.grid[i][j].getColor();
     }
 
     // Method to display the board
