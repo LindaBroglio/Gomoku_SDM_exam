@@ -82,18 +82,18 @@ public class Board {
     }
 
     private Integer[] getOrthogonalIndices(Integer index) {
-        int start = Math.max(0, index - howManyToWin());
-        int end = Math.min(boardSize() - 1, index + howManyToWin());
-        Integer[] Range = new Integer[end - start + 1];
-        for (int i = start; i <= end; i++) Range[i - start] = i;
-        return Range;
+        return getIndices(index, 0);
     }
 
     private Integer[] getDiagonalIndices(Integer index) {
-        int start = Math.max(0, index - howManyToWin() + 1);
-        int end = Math.min(boardSize() - 1, index + howManyToWin() - 1);
+        return getIndices(index, 1);
+    }
+
+    private Integer[] getIndices(Integer index, int offset) {
+        int start = Math.max(0, index - howManyToWin() + offset);
+        int end = Math.min(boardSize() - 1, index + howManyToWin() - offset);
         Integer[] Range = new Integer[end - start + 1];
-        for (int k = start; k <= end; k++) Range[k - start] = k;
+        for (int i = start; i <= end; i++) Range[i - start] = i;
         return Range;
     }
 
