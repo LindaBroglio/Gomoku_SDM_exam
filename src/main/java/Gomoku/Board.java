@@ -1,6 +1,5 @@
 package Gomoku;
 
-import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.utilities.Color;
 
 import static Gomoku.utilities.GameSpecifications.*;

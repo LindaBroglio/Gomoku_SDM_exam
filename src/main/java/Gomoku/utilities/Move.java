@@ -1,6 +1,7 @@
 package Gomoku.utilities;
 
 import Gomoku.Board;
+import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.InvalidFormatException;
 import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
 import Gomoku.Exceptions.InputExceptions.QuitGameException;
@@ -29,12 +30,16 @@ public class Move {
         String input = scanner.nextLine();
         Integer[] xy = new InputValidator(turn).validateInput(input);
         x = xy[0];
-        y = xy[0];
+        y = xy[1];
     }
 
     public void checkIfLegalMove() throws OutOfBoardException, TakenNodeException {
-        if (outOfBounds(x, y)) throw new OutOfBoardException("The coordinates are outside the board.");
-        if (nodeIsTaken(x, y)) throw new TakenNodeException("The node is already taken.");
+        if (outOfBounds()) throw new OutOfBoardException("The coordinates are outside the board.");
+        if (nodeIsTaken()) throw new TakenNodeException("The node is already taken.");
+    }
+
+    public void checkWinner(Integer turn) throws GameWonException {
+        if (this.board.isCurrentStonePartOfAWinningStreak(x - 1, y - 1)) throw new GameWonException(turn);
     }
 
     public void makeMove(Integer turn) throws TakenNodeException, OutOfBoardException {
@@ -45,11 +50,11 @@ public class Move {
         return turn % 2 == 0;
     }
 
-    private boolean outOfBounds(Integer x, Integer y) {
+    private boolean outOfBounds() {
         return x < 0 || x >= boardSize() || y < 0 || y >= boardSize();
     }
 
-    private boolean nodeIsTaken(Integer x, Integer y) {
+    private boolean nodeIsTaken() {
         return nodeColor(x,y) != Color.EMPTY;
     }
 
