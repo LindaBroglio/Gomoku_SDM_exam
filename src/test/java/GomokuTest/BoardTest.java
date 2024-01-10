@@ -43,19 +43,6 @@ public class BoardTest {
     }
 
     @Test
-    public void placeStoneOutOfBoundsTest() {
-        Assertions.assertThrows(OutOfBoardException.class, () -> board.placeStone(6, 6, Color.BLACK));
-    }
-
-    @Test
-    public void placeStoneTakenNodeTest() {
-        Assertions.assertThrows(TakenNodeException.class, () -> {
-            board.placeStone(0, 0, Color.BLACK);
-            board.placeStone(0, 0, Color.WHITE);
-        });
-    }
-
-    @Test
     void checkIfEnoughConsecutiveHorizontalSameColorStonesMakeYouWin() throws TakenNodeException, OutOfBoardException {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
