@@ -12,7 +12,7 @@ public class Board {
         this.howManyToWin = howManyToWin;
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size; j++)
-                this.grid[i][j] = new Node(i, j);
+                this.grid[i][j] = new Node();
     }
 
     public Node[][] getGrid() {
@@ -52,8 +52,6 @@ public class Board {
             else count = 0;
             if (count >= howManyToWin) return true;
         }
-
-
         return false;
     }
 
