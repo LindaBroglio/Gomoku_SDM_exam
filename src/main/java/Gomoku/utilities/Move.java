@@ -31,9 +31,11 @@ public class Move {
         Integer[] xy = new InputValidator(turn).validateInput(input);
         x = xy[0];
         y = xy[1];
+        System.out.println("readMove(): x = " + x + " y = " + y);
     }
 
     public void checkIfLegalMove() throws OutOfBoardException, TakenNodeException {
+        System.out.println("checkIfLegalMove(): x = " + x + " y = " + y);
         if (outOfBounds()) throw new OutOfBoardException("The coordinates are outside the board.");
         if (nodeIsTaken()) throw new TakenNodeException("The node is already taken.");
     }
@@ -51,11 +53,11 @@ public class Move {
     }
 
     private boolean outOfBounds() {
-        return x < 0 || x >= boardSize() || y < 0 || y >= boardSize();
+        return x - 1 < 0 || x - 1 >= boardSize() || y - 1 < 0 || y - 1 >= boardSize();
     }
 
     private boolean nodeIsTaken() {
-        return nodeColor(x,y) != Color.EMPTY;
+        return nodeColor(x - 1, y - 1) != Color.EMPTY;
     }
 
     private Color nodeColor(Integer i, Integer j) {

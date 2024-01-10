@@ -23,6 +23,7 @@ public class Board {
     }
 
     public void placeStone(Integer x, Integer y, Color color)  {
+        System.out.println("placeStone(): x = " + x + " y = " + y);
         this.grid[x][y].setColor(color);
     }
 
@@ -71,18 +72,18 @@ public class Board {
     }
 
     private Integer[] getOrthogonalIndices(Integer index) {
-        return getIndices(index, 0);
+        int start = Math.max(0, index - howManyToWin());
+        int end = Math.min(boardSize() - 1, index + howManyToWin());
+        Integer[] Range = new Integer[end - start + 1];
+        for (int i = start; i <= end; i++) Range[i - start] = i;
+        return Range;
     }
 
     private Integer[] getDiagonalIndices(Integer index) {
-        return getIndices(index, 1);
-    }
-
-    private Integer[] getIndices(Integer index, int offset) {
-        int start = Math.max(0, index - howManyToWin() + offset);
-        int end = Math.min(boardSize() - 1, index + howManyToWin() - offset);
+        int start = Math.max(0, index - howManyToWin() + 1);
+        int end = Math.min(boardSize() - 1, index + howManyToWin() - 1);
         Integer[] Range = new Integer[end - start + 1];
-        for (int i = start; i <= end; i++) Range[i - start] = i;
+        for (int k = start; k <= end; k++) Range[k - start] = k;
         return Range;
     }
 
