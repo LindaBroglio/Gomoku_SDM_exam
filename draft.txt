@@ -13,6 +13,10 @@ V - illegal board size
    V - already occupied node
 
 Test:
+- Board test
+V - Color test
+- Game test
+V - Node test
 - does the game end when i type quit --> does white win if black resigns
 - does it ask again when white writes a typo --> is it still white turn
 - does the right team win --> does black win at turn 5

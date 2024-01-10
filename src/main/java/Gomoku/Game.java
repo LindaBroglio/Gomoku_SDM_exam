@@ -1,8 +1,12 @@
 package Gomoku;
 
 import Gomoku.Exceptions.InputExceptions.*;
+import Gomoku.utilities.Color;
 
 import java.util.Scanner;
+
+import static Gomoku.utilities.GameSpecifications.*;
+
 public class Game {
     private final Board board;
     private final Scanner scanner;
@@ -12,7 +16,7 @@ public class Game {
 
     // Constructor
     public Game(Integer boardSize, Integer howManyToWin) {
-        this.board = new Board(boardSize, howManyToWin);
+        this.board = new Board();
         this.scanner = new Scanner(System.in);
     }
 
@@ -74,8 +78,7 @@ public class Game {
         return (boardIsNotFull());
     }
     private boolean boardIsNotFull(){
-        Integer boardSize = this.board.boardSize();
-        return turn < boardSize * boardSize;
+        return turn < boardSize() * boardSize();
     }
 
     private void displayBoard() {

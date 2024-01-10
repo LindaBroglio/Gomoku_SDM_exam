@@ -1,11 +1,11 @@
 package GomokuTest;
 
 import Gomoku.Board;
-import Gomoku.Color;
+import Gomoku.utilities.Color;
 import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
 import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -13,12 +13,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static Gomoku.utilities.GameSpecifications.boardSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
+    Board board;
+    @BeforeEach
+    void initBoard(){
+        board = new Board();
+    }
+
     @Test
     public void testBoard() {
-        Board board = new Board(5, 3);
         assertEquals(5, board.getGrid().length);
         assertEquals(5, board.getGrid()[0].length);
         assertEquals(Color.EMPTY, board.getGrid()[0][0].getColor());
@@ -26,27 +32,23 @@ public class BoardTest {
 
     @Test
     public void testChangingNodeColor() {
-        Board board = new Board(5, 3);
         board.getGrid()[0][0].setColor(Color.BLACK);
         assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
 
     @Test
     public void placeStoneTest() throws OutOfBoardException, TakenNodeException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
 
     @Test
     public void placeStoneOutOfBoundsTest() {
-        Board board = new Board(5, 3);
         Assertions.assertThrows(OutOfBoardException.class, () -> board.placeStone(6, 6, Color.BLACK));
     }
 
     @Test
     public void placeStoneTakenNodeTest() {
-        Board board = new Board(5, 3);
         Assertions.assertThrows(TakenNodeException.class, () -> {
             board.placeStone(0, 0, Color.BLACK);
             board.placeStone(0, 0, Color.WHITE);
@@ -55,7 +57,6 @@ public class BoardTest {
 
     @Test
     void checkIfEnoughConsecutiveHorizontalSameColorStonesMakeYouWin() throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
         board.placeStone(0, 2, Color.BLACK);
@@ -67,7 +68,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
     void checkIfHorizontalCheckWorksWithFullFirstRow(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.BLACK);
         board.placeStone(0, 2, Color.BLACK);
@@ -79,7 +79,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2})
     void checkIfVerticalCheckWorks(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(1, 0, Color.BLACK);
         board.placeStone(2, 0, Color.BLACK);
@@ -91,7 +90,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
     void checkIfDiagonalCheckWorksWhenFullyInsideTheBoard(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
         board.placeStone(3, 3, Color.BLACK);
@@ -101,7 +99,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2})
     void checkIfDiagonalCheckWorksWhenCloseToTheEdge(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
@@ -111,7 +108,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
     void checkIfOffDiagonalCheckWorks(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         board.placeStone(4, 0, Color.BLACK);
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
@@ -120,9 +116,8 @@ public class BoardTest {
 
     @Test
     void checkeredPatternTest() throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
-        for (int i = 0; i < board.boardSize(); i++)
-            for (int j = 0; j < board.boardSize(); j++)
+        for (int i = 0; i < boardSize(); i++)
+            for (int j = 0; j < boardSize(); j++)
                 if ((i + j) % 2 == 0) board.placeStone(i, j, Color.WHITE);
                 else board.placeStone(i, j, Color.BLACK);
         Assertions.assertTrue(board.enoughConsecutive(0,0));
@@ -135,14 +130,10 @@ public class BoardTest {
         Assertions.assertTrue(board.enoughConsecutive(4,4));
         Assertions.assertTrue(board.enoughConsecutive(2,2));
 
-
-
-
     }
 
     @Test
     void emptySquareFullSquareTest() throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         // first row
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(1, 2, Color.BLACK);
@@ -164,7 +155,6 @@ public class BoardTest {
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
     void checkIfMultipleWinningSequencesWork(int index) throws TakenNodeException, OutOfBoardException {
-        Board board = new Board(5, 3);
         // Horizontal winning sequence
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.BLACK);
@@ -182,7 +172,6 @@ public class BoardTest {
 
     @Test
     public void DisplayBoardTest() throws OutOfBoardException, TakenNodeException {
-        Board board = new Board(5, 3);
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

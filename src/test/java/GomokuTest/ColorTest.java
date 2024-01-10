@@ -1,6 +1,6 @@
 package GomokuTest;
 
-import Gomoku.Color;
+import Gomoku.utilities.Color;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

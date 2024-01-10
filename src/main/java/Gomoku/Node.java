@@ -1,5 +1,7 @@
 package Gomoku;
 
+import Gomoku.utilities.Color;
+
 public class Node {
     private Color color; // private because we want encapsulation
 
