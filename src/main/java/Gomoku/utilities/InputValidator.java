@@ -3,8 +3,6 @@ package Gomoku.utilities;
 import Gomoku.Exceptions.InputExceptions.InvalidFormatException;
 import Gomoku.Exceptions.InputExceptions.QuitGameException;
 
-import java.util.Scanner;
-
 public class InputValidator {
 
     private final Integer turn;
@@ -13,31 +11,20 @@ public class InputValidator {
         this.turn = turn;
     }
 
-    public Integer[] validateInput(String input) throws InvalidFormatException, QuitGameException {
-        if (isQuitCommand(input)) throw new QuitGameException(turn);
-        String[] inputs = input.split(" ");
-        validateInputLength(inputs);
-        return parseInputToIntegers(inputs);
+    public Integer[] validateInput(String userInput) throws InvalidFormatException, QuitGameException {
+        if (userInput.equalsIgnoreCase("quit")) throw new QuitGameException(turn);
+        String[] userSplitInput = userInput.split(" ");
+        if (userSplitInput.length != 2) throw new InvalidFormatException("Enter exactly two integers.");
+        return fromStringToInteger(userSplitInput);
     }
 
-    private boolean isQuitCommand(String input) {
-        return input.equalsIgnoreCase("quit");
-    }
-
-    private void validateInputLength(String[] inputs) throws InvalidFormatException {
-        if (inputs.length != 2) {
-            throw new InvalidFormatException("You must enter exactly two integers.");
-        }
-    }
-
-    private Integer[] parseInputToIntegers(String[] inputs) throws InvalidFormatException {
-        Integer x, y;
+    private Integer[] fromStringToInteger(String[] parts) throws InvalidFormatException {
         try {
-            x = Integer.parseInt(inputs[0]);
-            y = Integer.parseInt(inputs[1]);
+            Integer x = Integer.parseInt(parts[0]);
+            Integer y = Integer.parseInt(parts[1]);
+            return new Integer[]{x, y};
         } catch (NumberFormatException e) {
-            throw new InvalidFormatException("Both inputs must be integers.");
+            throw new InvalidFormatException("Inputs must be integers.");
         }
-        return new Integer[]{x, y};
     }
 }

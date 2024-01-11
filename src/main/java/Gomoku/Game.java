@@ -8,54 +8,40 @@ import java.util.Scanner;
 
 public class Game {
     private final Board board;
-    private Integer turn = 0;
+    private Integer turn;
     private final Move move;
 
-    public Integer inputHowManyToWin() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the number of pieces needed to win: ");
-        return scanner.nextInt();
-    }
-    public Integer inputBoardSize() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the board size: ");
-        return scanner.nextInt();
-    }
-
-    // Constructor
     public Game() {
-        Integer howManyToWin = inputHowManyToWin();
-        Integer boardSize = inputBoardSize();
-        this.board = new Board(boardSize, howManyToWin);
+        this.board = new Board(inputBoardSize(), inputHowManyToWin());
+        this.turn = 0;
         this.move = new Move(board);
     }
 
-    public Board getBoard() {
-        return this.board;
+    private Integer inputBoardSize() {
+        System.out.print("Please enter the board size: ");
+        return new Scanner(System.in).nextInt();
     }
 
-    public int getBoardSize() {
-        return board.getBoardSize();
+    private Integer inputHowManyToWin() {
+        System.out.print("Please enter the number of pieces needed to win: ");
+        return new Scanner(System.in).nextInt();
     }
 
-    public int getHowManyToWin() {
-        return board.getHowManyToWin();
-    }
-
-    // Method to start the game
     public void startGame() {
         displayBoard();
-        while (gameIsOn()) {
+        while (boardIsNotFull()) {
+            System.out.println("turn = " + turn);
             turn += 1;
-            move.PromptNextTurn(turn);
+            move.promptNextTurn(turn);
             try {
                 move.readMove(turn);
-                move.checkIfLegalMove();
                 move.makeMove(turn);
                 move.checkWinner(turn);
-            } catch (InvalidFormatException | IllegalMoveException e) {
+                System.out.println("turn = " + turn);
+            } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
                 System.out.println(e.getMessage());
                 turn -= 1;
+                System.out.println("turn = " + turn);
                 continue;
             } catch (QuitGameException | GameWonException e) {
                 System.out.println(e.getMessage());
@@ -66,13 +52,9 @@ public class Game {
         displayBoard();
     }
 
-    private boolean gameIsOn(){
-        return (boardIsNotFull());
-    }
-    private boolean boardIsNotFull(){
-        return turn < getBoardSize() * getBoardSize();
-    }
-    private void displayBoard() {
-        this.board.displayBoard();
-    }
+    public Board getBoard() { return this.board; }
+    public int getBoardSize() { return board.getBoardSize(); }
+    public int getHowManyToWin() { return board.getHowManyToWin(); }
+    private boolean boardIsNotFull() { return turn < getBoardSize() * getBoardSize(); }
+    private void displayBoard() { this.board.displayBoard(); }
 }
