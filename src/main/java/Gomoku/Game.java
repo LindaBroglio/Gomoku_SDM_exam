@@ -30,18 +30,14 @@ public class Game {
     public void startGame() {
         displayBoard();
         while (boardIsNotFull()) {
-            System.out.println("turn = " + turn);
-            turn += 1;
-            move.promptNextTurn(turn);
             try {
+                move.promptNextTurn(++turn);
                 move.readMove(turn);
                 move.makeMove(turn);
                 move.checkWinner(turn);
-                System.out.println("turn = " + turn);
             } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
                 System.out.println(e.getMessage());
-                turn -= 1;
-                System.out.println("turn = " + turn);
+                turn--;
                 continue;
             } catch (QuitGameException | GameWonException e) {
                 System.out.println(e.getMessage());
@@ -52,9 +48,7 @@ public class Game {
         displayBoard();
     }
 
-    public Board getBoard() { return this.board; }
     public int getBoardSize() { return board.getBoardSize(); }
-    public int getHowManyToWin() { return board.getHowManyToWin(); }
     private boolean boardIsNotFull() { return turn < getBoardSize() * getBoardSize(); }
     private void displayBoard() { this.board.displayBoard(); }
 }
