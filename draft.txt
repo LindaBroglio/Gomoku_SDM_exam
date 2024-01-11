@@ -5,12 +5,14 @@ V - allow user to quit
   - define neighbouring nodes
 V - assess illegal moves
 - add numbers on board
+- get boardSize() from input
 
 Exceptions:
 V - illegal board size
-- illegal move
+V - illegal move
    V - out of board
    V - already occupied node
+- how many to win < board size!
 
 Test:
 - Board test
@@ -24,7 +26,7 @@ V - Node test
 - tests that use System.setIn(in)
 
 Refactoring ideas:
-- create a class containing static methods and members for board specification
+V - create a class containing static methods and members for board specification
 
 Add:
 - variant where +5 stones does not count

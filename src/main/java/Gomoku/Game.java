@@ -6,21 +6,40 @@ import Gomoku.utilities.Move;
 
 import java.util.Scanner;
 
-import static Gomoku.utilities.GameSpecifications.*;
-
 public class Game {
     private final Board board;
     private Integer turn = 0;
-    private Move move;
+    private final Move move;
+
+    public Integer inputHowManyToWin() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the number of pieces needed to win: ");
+        return scanner.nextInt();
+    }
+    public Integer inputBoardSize() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the board size: ");
+        return scanner.nextInt();
+    }
 
     // Constructor
-    public Game(Integer boardSize, Integer howManyToWin) {
-        this.board = new Board();
+    public Game() {
+        Integer howManyToWin = inputHowManyToWin();
+        Integer boardSize = inputBoardSize();
+        this.board = new Board(boardSize, howManyToWin);
         this.move = new Move(board);
     }
 
     public Board getBoard() {
         return this.board;
+    }
+
+    public int getBoardSize() {
+        return board.getBoardSize();
+    }
+
+    public int getHowManyToWin() {
+        return board.getHowManyToWin();
     }
 
     // Method to start the game
@@ -51,7 +70,7 @@ public class Game {
         return (boardIsNotFull());
     }
     private boolean boardIsNotFull(){
-        return turn < boardSize() * boardSize();
+        return turn < getBoardSize() * getBoardSize();
     }
     private void displayBoard() {
         this.board.displayBoard();

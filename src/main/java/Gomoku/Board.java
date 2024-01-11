@@ -2,19 +2,22 @@ package Gomoku;
 
 import Gomoku.utilities.Color;
 
-import static Gomoku.utilities.GameSpecifications.*;
-
 public class Board {
     private final Node[][] grid;
+    private final Integer boardSize;
+    private final Integer howManyToWin;
 
-    public Board() {
-        this.grid = new Node[boardSize()][boardSize()];
-        initializeGrid();
+
+    public Board(Integer boardSize, Integer howManyToWin) {
+        this.boardSize = boardSize;
+        this.howManyToWin = howManyToWin;
+        this.grid = new Node[boardSize][boardSize];
+        initializeGrid(boardSize);
     }
 
-    private void initializeGrid(){
-        for (int i = 0; i < boardSize(); i++)
-            for (int j = 0; j < boardSize(); j++)
+    private void initializeGrid(Integer boardSize){
+        for (int i = 0; i < boardSize; i++)
+            for (int j = 0; j < boardSize; j++)
                 this.grid[i][j] = new Node();
     }
 
@@ -23,7 +26,6 @@ public class Board {
     }
 
     public void placeStone(Integer x, Integer y, Color color)  {
-        System.out.println("placeStone(): x = " + x + " y = " + y);
         this.grid[x][y].setColor(color);
     }
 
@@ -43,7 +45,7 @@ public class Board {
         for (Integer index : getOrthogonalIndices(j)) {
             if (sameColor(i, j, i, index)) count++;
             else count = 0;
-            if (count >= howManyToWin()) return true;
+            if (count >= howManyToWin) return true;
         }
         return false;
     }
@@ -53,7 +55,7 @@ public class Board {
         for (Integer index : getOrthogonalIndices(i)) {
             if (sameColor(i, j, index, j)) count++;
             else count = 0;
-            if (count >= howManyToWin()) return true;
+            if (count >= howManyToWin) return true;
         }
         return false;
     }
@@ -66,22 +68,22 @@ public class Board {
             int colIndex = isMainDiagonal ? colIndices[k] : colIndices[colIndices.length - 1 - k];
             if (sameColor(i, j, rowIndices[k], colIndex)) count++;
             else count = 0;
-            if (count >= howManyToWin()) return true;
+            if (count >= howManyToWin) return true;
         }
         return false;
     }
 
     private Integer[] getOrthogonalIndices(Integer index) {
-        int start = Math.max(0, index - howManyToWin());
-        int end = Math.min(boardSize() - 1, index + howManyToWin());
+        int start = Math.max(0, index - howManyToWin);
+        int end = Math.min(boardSize - 1, index + howManyToWin);
         Integer[] Range = new Integer[end - start + 1];
         for (int i = start; i <= end; i++) Range[i - start] = i;
         return Range;
     }
 
     private Integer[] getDiagonalIndices(Integer index) {
-        int start = Math.max(0, index - howManyToWin() + 1);
-        int end = Math.min(boardSize() - 1, index + howManyToWin() - 1);
+        int start = Math.max(0, index - howManyToWin + 1);
+        int end = Math.min(boardSize - 1, index + howManyToWin - 1);
         Integer[] Range = new Integer[end - start + 1];
         for (int k = start; k <= end; k++) Range[k - start] = k;
         return Range;
@@ -106,5 +108,13 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+    public Integer getBoardSize() {
+        return boardSize;
+    }
+
+    public Integer getHowManyToWin() {
+        return howManyToWin;
     }
 }

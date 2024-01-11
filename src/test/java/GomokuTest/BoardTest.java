@@ -2,8 +2,6 @@ package GomokuTest;
 
 import Gomoku.Board;
 import Gomoku.utilities.Color;
-import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
-import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,70 +11,82 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static Gomoku.utilities.GameSpecifications.boardSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
     Board board;
     @BeforeEach
     void initBoard(){
-        board = new Board();
+        board = new Board(5, 3);
     }
 
     @Test
-    public void testBoard() {
-        assertEquals(5, board.getGrid().length);
-        assertEquals(5, board.getGrid()[0].length);
+    public void isBoardSizeCorrect() {
+        assertEquals(board.getBoardSize(), board.getGrid().length);
+        assertEquals(board.getBoardSize(), board.getGrid()[0].length);
+    }
+
+    @Test
+    public void isANodeIsEmptyAfterInitialization() {
         assertEquals(Color.EMPTY, board.getGrid()[0][0].getColor());
     }
 
     @Test
-    public void testChangingNodeColor() {
-        board.getGrid()[0][0].setColor(Color.BLACK);
-        assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
-    }
-
-    @Test
-    public void placeStoneTest() throws OutOfBoardException, TakenNodeException {
+    public void placeOneStone() {
         board.placeStone(0, 0, Color.BLACK);
         assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
 
     @Test
-    void checkIfEnoughConsecutiveHorizontalSameColorStonesMakeYouWin() throws TakenNodeException, OutOfBoardException {
-        board.placeStone(0, 0, Color.BLACK);
-        board.placeStone(0, 1, Color.WHITE);
-        board.placeStone(0, 2, Color.BLACK);
-        board.placeStone(0, 3, Color.BLACK);
-        board.placeStone(0, 4, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, 2));
+    void doEnoughConsecutiveHorizontalSameColorStonesMakeYouWin() {
+        for (int j = 0; j < board.getHowManyToWin(); j++) {
+            board.placeStone(0, j, Color.BLACK);
+        }
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, board.getHowManyToWin()));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
-    void checkIfHorizontalCheckWorksWithFullFirstRow(int index) throws TakenNodeException, OutOfBoardException {
-        board.placeStone(0, 0, Color.BLACK);
-        board.placeStone(0, 1, Color.BLACK);
-        board.placeStone(0, 2, Color.BLACK);
-        board.placeStone(0, 3, Color.BLACK);
-        board.placeStone(0, 4, Color.BLACK);
+    void doesHorizontalCheckWorkWithFullFirstRow(int index) {
+        for (int j = 0; j < board.getBoardSize(); j++) {
+            board.placeStone(0, j, Color.BLACK);
+        }
         Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, index));
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2})
-    void checkIfVerticalCheckWorks(int index) throws TakenNodeException, OutOfBoardException {
-        board.placeStone(0, 0, Color.BLACK);
-        board.placeStone(1, 0, Color.BLACK);
-        board.placeStone(2, 0, Color.BLACK);
-        board.placeStone(3, 0, Color.WHITE);
-        board.placeStone(4, 0, Color.BLACK);
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void doesHorizontalCheckWorkWhenNotAWinningStreak(int index) {
+        for (int j = 0; j < board.getBoardSize(); j++) {
+            if (j % 2 == 0) board.placeStone(0, j, Color.BLACK);
+            else board.placeStone(0, j, Color.WHITE);
+        }
+        Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(0, index));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void doesVerticalCheckWorksWithFullFirstColumn(int index) {
+        for (int i = 0; i < board.getBoardSize(); i++) {
+            board.placeStone(i, 0, Color.BLACK);
+        }
         Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
-    void checkIfDiagonalCheckWorksWhenFullyInsideTheBoard(int index) throws TakenNodeException, OutOfBoardException {
+    void doesVerticalCheckWorksWithPartiallyFullFirstColumn(int index) {
+        board.placeStone(0, 0, Color.EMPTY);
+        board.placeStone(1, 0, Color.BLACK);
+        board.placeStone(2, 0, Color.BLACK);
+        board.placeStone(3, 0, Color.BLACK);
+        board.placeStone(4, 0, Color.WHITE);
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    void doesDiagonalCheckWorkWhenFullyInsideTheBoard(int index) {
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
         board.placeStone(3, 3, Color.BLACK);
@@ -85,7 +95,7 @@ public class BoardTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2})
-    void checkIfDiagonalCheckWorksWhenCloseToTheEdge(int index) throws TakenNodeException, OutOfBoardException {
+    void doesDiagonalCheckWorkWhenCloseToTheEdge(int index) {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
@@ -94,82 +104,87 @@ public class BoardTest {
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 4})
-    void checkIfOffDiagonalCheckWorks(int index) throws TakenNodeException, OutOfBoardException {
+    void doesOffDiagonalCheckWork(int index) {
         board.placeStone(4, 0, Color.BLACK);
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
         Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4 - index, index));
     }
 
-    @Test
-    void checkeredPatternTest() throws TakenNodeException, OutOfBoardException {
-        for (int i = 0; i < boardSize(); i++)
-            for (int j = 0; j < boardSize(); j++)
-                if ((i + j) % 2 == 0) board.placeStone(i, j, Color.WHITE);
-                else board.placeStone(i, j, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,0));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,1));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,3));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,4));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,0));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,1));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,3));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4,4));
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
 
-    }
 
-    @Test
-    void emptySquareFullSquareTest() throws TakenNodeException, OutOfBoardException {
-        // first row
-        board.placeStone(1, 1, Color.BLACK);
-        board.placeStone(1, 2, Color.BLACK);
-        board.placeStone(1, 3, Color.BLACK);
-        // second row
-        board.placeStone(2, 1, Color.BLACK);
-        // center is empty
-        board.placeStone(2, 3, Color.BLACK);
-        // third row
-        board.placeStone(3, 1, Color.BLACK);
-        board.placeStone(3, 2, Color.BLACK);
-        board.placeStone(3, 3, Color.BLACK);
-        Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(2,2));
-        // fill center
-        board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
-    }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
-    void checkIfMultipleWinningSequencesWork(int index) throws TakenNodeException, OutOfBoardException {
-        // Horizontal winning sequence
-        board.placeStone(0, 0, Color.BLACK);
-        board.placeStone(0, 1, Color.BLACK);
-        board.placeStone(0, 2, Color.BLACK);
-        // Vertical winning sequence
-        board.placeStone(0, 4, Color.BLACK);
-        board.placeStone(1, 4, Color.BLACK);
-        board.placeStone(2, 4, Color.BLACK);
-        // Diagonal winning sequence
-        board.placeStone(2, 0, Color.BLACK);
-        board.placeStone(3, 1, Color.BLACK);
-        board.placeStone(4, 2, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
+    void doesDiagonalCheckWorkWithCheckeredPattern(int index) {
+        for (int i = 0; i < board.getBoardSize(); i++)
+            for (int j = 0; j < board.getBoardSize(); j++)
+                if ((i + j) % 2 == 0) board.placeStone(i, j, Color.WHITE);
+                else board.placeStone(i, j, Color.BLACK);
+        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,index));
     }
 
     @Test
-    public void DisplayBoardTest() throws OutOfBoardException, TakenNodeException {
+    void emptySquareFullSquareTest() {
+            // first row
+            board.placeStone(1, 1, Color.BLACK);
+            board.placeStone(1, 2, Color.BLACK);
+            board.placeStone(1, 3, Color.BLACK);
+            // second row
+            board.placeStone(2, 1, Color.BLACK);
+            // center is empty
+            board.placeStone(2, 3, Color.BLACK);
+            // third row
+            board.placeStone(3, 1, Color.BLACK);
+            board.placeStone(3, 2, Color.BLACK);
+            board.placeStone(3, 3, Color.BLACK);
+            Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(2,2));
+            // fill center
+            board.placeStone(2, 2, Color.BLACK);
+            Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
+            }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4})
+    void checkIfMultipleWinningSequencesCauseIssues(int index) {
+            // Horizontal winning sequence
+            board.placeStone(0, 0, Color.BLACK);
+            board.placeStone(0, 1, Color.BLACK);
+            board.placeStone(0, 2, Color.BLACK);
+            // Vertical winning sequence
+            board.placeStone(0, 4, Color.BLACK);
+            board.placeStone(1, 4, Color.BLACK);
+            board.placeStone(2, 4, Color.BLACK);
+            // Diagonal winning sequence
+            board.placeStone(2, 0, Color.BLACK);
+            board.placeStone(3, 1, Color.BLACK);
+            board.placeStone(4, 2, Color.BLACK);
+            Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
+            }
+
+    @Test
+    public void DisplayBoardTest() {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
+
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         board.displayBoard();
+
         String ls = System.lineSeparator();
-        String expectedOutput = "B W . . . " + ls +
-                                ". . . . . " + ls +
-                                ". . . . . " + ls +
-                                ". . . . . " + ls +
-                                ". . . . . " + ls;
-        assertEquals(expectedOutput, outContent.toString());
-    }
-}
+        StringBuilder expectedOutput = new StringBuilder();
+        for (int i = 0; i < board.getBoardSize(); i++) {
+        for (int j = 0; j < board.getBoardSize(); j++) {
+        if (i == 0 && j == 0) {
+        expectedOutput.append("B ");
+        } else if (i == 0 && j == 1) {
+        expectedOutput.append("W ");
+        } else {
+        expectedOutput.append(". ");
+        }
+        }
+        expectedOutput.append(ls);
+        }
+        assertEquals(expectedOutput.toString(), outContent.toString());
+        }
+        }
