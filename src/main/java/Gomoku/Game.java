@@ -10,21 +10,27 @@ public class Game {
     private final Board board;
     private Integer turn;
     private final Move move;
+    private final Scanner scanner;
 
-    public Game() {
+    public Game(Scanner scanner) {
+        this.scanner = scanner;
         this.board = new Board(inputBoardSize(), inputHowManyToWin());
         this.turn = 0;
         this.move = new Move(board);
     }
 
+    public Game() {
+        this(new Scanner(System.in));
+    }
+
     private Integer inputBoardSize() {
         System.out.print("Please enter the board size: ");
-        return new Scanner(System.in).nextInt();
+        return scanner.nextInt();
     }
 
     private Integer inputHowManyToWin() {
         System.out.print("Please enter the number of pieces needed to win: ");
-        return new Scanner(System.in).nextInt();
+        return scanner.nextInt();
     }
 
     public void startGame() {
