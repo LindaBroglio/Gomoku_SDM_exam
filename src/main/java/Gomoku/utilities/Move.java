@@ -9,8 +9,6 @@ import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 
 import java.util.Scanner;
 
-import static Gomoku.utilities.GameSpecifications.boardSize;
-
 public class Move {
     private Integer x, y;
     private Board board;
@@ -31,11 +29,9 @@ public class Move {
         Integer[] xy = new InputValidator(turn).validateInput(input);
         x = xy[0];
         y = xy[1];
-        System.out.println("readMove(): x = " + x + " y = " + y);
     }
 
     public void checkIfLegalMove() throws OutOfBoardException, TakenNodeException {
-        System.out.println("checkIfLegalMove(): x = " + x + " y = " + y);
         if (outOfBounds()) throw new OutOfBoardException("The coordinates are outside the board.");
         if (nodeIsTaken()) throw new TakenNodeException("The node is already taken.");
     }
@@ -53,7 +49,7 @@ public class Move {
     }
 
     private boolean outOfBounds() {
-        return x - 1 < 0 || x - 1 >= boardSize() || y - 1 < 0 || y - 1 >= boardSize();
+        return x - 1 < 0 || x - 1 >= board.getBoardSize() || y - 1 < 0 || y - 1 >= board.getBoardSize();
     }
 
     private boolean nodeIsTaken() {
