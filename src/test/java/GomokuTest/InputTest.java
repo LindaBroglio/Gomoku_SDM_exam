@@ -16,9 +16,6 @@ public class InputTest {
 
     @BeforeEach
     public void setUp() {
-        String input = "5\n3\n";
-        Scanner scanner = new Scanner(input);
-        Game game = new Game(scanner);
         validator = new InputValidator(1);
     }
 

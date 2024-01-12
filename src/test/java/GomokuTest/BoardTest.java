@@ -42,7 +42,7 @@ public class BoardTest {
         for (int j = 0; j < board.getHowManyToWin(); j++) {
             board.placeStone(0, j, Color.BLACK);
         }
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, board.getHowManyToWin()));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(0, board.getHowManyToWin()));
     }
 
     @ParameterizedTest
@@ -51,7 +51,7 @@ public class BoardTest {
         for (int j = 0; j < board.getBoardSize(); j++) {
             board.placeStone(0, j, Color.BLACK);
         }
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0, index));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(0, index));
     }
 
     @ParameterizedTest
@@ -61,7 +61,7 @@ public class BoardTest {
             if (j % 2 == 0) board.placeStone(0, j, Color.BLACK);
             else board.placeStone(0, j, Color.WHITE);
         }
-        Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(0, index));
+        assertFalse(board.isCurrentStonePartOfAWinningStreak(0, index));
     }
 
     @ParameterizedTest
@@ -70,7 +70,7 @@ public class BoardTest {
         for (int i = 0; i < board.getBoardSize(); i++) {
             board.placeStone(i, 0, Color.BLACK);
         }
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
     }
 
     @ParameterizedTest
@@ -81,7 +81,7 @@ public class BoardTest {
         board.placeStone(2, 0, Color.BLACK);
         board.placeStone(3, 0, Color.BLACK);
         board.placeStone(4, 0, Color.WHITE);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(index, 0));
     }
 
     @ParameterizedTest
@@ -90,7 +90,7 @@ public class BoardTest {
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
         board.placeStone(3, 3, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
     }
 
     @ParameterizedTest
@@ -99,7 +99,7 @@ public class BoardTest {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(1, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
     }
 
     @ParameterizedTest
@@ -108,11 +108,8 @@ public class BoardTest {
         board.placeStone(4, 0, Color.BLACK);
         board.placeStone(3, 1, Color.BLACK);
         board.placeStone(2, 2, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(4 - index, index));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(4 - index, index));
     }
-
-
-
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
@@ -121,46 +118,46 @@ public class BoardTest {
             for (int j = 0; j < board.getBoardSize(); j++)
                 if ((i + j) % 2 == 0) board.placeStone(i, j, Color.WHITE);
                 else board.placeStone(i, j, Color.BLACK);
-        Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(0,index));
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(0,index));
     }
 
     @Test
     void emptySquareFullSquareTest() {
-            // first row
-            board.placeStone(1, 1, Color.BLACK);
-            board.placeStone(1, 2, Color.BLACK);
-            board.placeStone(1, 3, Color.BLACK);
-            // second row
-            board.placeStone(2, 1, Color.BLACK);
-            // center is empty
-            board.placeStone(2, 3, Color.BLACK);
-            // third row
-            board.placeStone(3, 1, Color.BLACK);
-            board.placeStone(3, 2, Color.BLACK);
-            board.placeStone(3, 3, Color.BLACK);
-            Assertions.assertFalse(board.isCurrentStonePartOfAWinningStreak(2,2));
-            // fill center
-            board.placeStone(2, 2, Color.BLACK);
-            Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
-            }
+        // first row
+        board.placeStone(1, 1, Color.BLACK);
+        board.placeStone(1, 2, Color.BLACK);
+        board.placeStone(1, 3, Color.BLACK);
+        // second row
+        board.placeStone(2, 1, Color.BLACK);
+        // center is empty
+        board.placeStone(2, 3, Color.BLACK);
+        // third row
+        board.placeStone(3, 1, Color.BLACK);
+        board.placeStone(3, 2, Color.BLACK);
+        board.placeStone(3, 3, Color.BLACK);
+        assertFalse(board.isCurrentStonePartOfAWinningStreak(2,2));
+        // fill center
+        board.placeStone(2, 2, Color.BLACK);
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(2,2));
+    }
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3, 4})
     void checkIfMultipleWinningSequencesCauseIssues(int index) {
-            // Horizontal winning sequence
-            board.placeStone(0, 0, Color.BLACK);
-            board.placeStone(0, 1, Color.BLACK);
-            board.placeStone(0, 2, Color.BLACK);
-            // Vertical winning sequence
-            board.placeStone(0, 4, Color.BLACK);
-            board.placeStone(1, 4, Color.BLACK);
-            board.placeStone(2, 4, Color.BLACK);
-            // Diagonal winning sequence
-            board.placeStone(2, 0, Color.BLACK);
-            board.placeStone(3, 1, Color.BLACK);
-            board.placeStone(4, 2, Color.BLACK);
-            Assertions.assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
-            }
+        // Horizontal winning sequence
+        board.placeStone(0, 0, Color.BLACK);
+        board.placeStone(0, 1, Color.BLACK);
+        board.placeStone(0, 2, Color.BLACK);
+        // Vertical winning sequence
+        board.placeStone(0, 4, Color.BLACK);
+        board.placeStone(1, 4, Color.BLACK);
+        board.placeStone(2, 4, Color.BLACK);
+        // Diagonal winning sequence
+        board.placeStone(2, 0, Color.BLACK);
+        board.placeStone(3, 1, Color.BLACK);
+        board.placeStone(4, 2, Color.BLACK);
+        assertTrue(board.isCurrentStonePartOfAWinningStreak(index, index));
+    }
 
     @Test
     public void DisplayBoardTest() {
@@ -174,17 +171,17 @@ public class BoardTest {
         String ls = System.lineSeparator();
         StringBuilder expectedOutput = new StringBuilder();
         for (int i = 0; i < board.getBoardSize(); i++) {
-        for (int j = 0; j < board.getBoardSize(); j++) {
-        if (i == 0 && j == 0) {
-        expectedOutput.append("B ");
-        } else if (i == 0 && j == 1) {
-        expectedOutput.append("W ");
-        } else {
-        expectedOutput.append(". ");
-        }
-        }
-        expectedOutput.append(ls);
+            for (int j = 0; j < board.getBoardSize(); j++) {
+                if (i == 0 && j == 0) {
+                    expectedOutput.append("B ");
+                } else if (i == 0 && j == 1) {
+                    expectedOutput.append("W ");
+                } else {
+                    expectedOutput.append(". ");
+                }
+            }
+            expectedOutput.append(ls);
         }
         assertEquals(expectedOutput.toString(), outContent.toString());
-        }
-        }
+    }
+}
