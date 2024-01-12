@@ -38,14 +38,14 @@ public class MoveTest {
     @Test
     public void displayCorrectBlackTurnMessage() {
         String expectedOutput = "Black turn: enter your move (e.g. 3 4):" + System.lineSeparator();
-        move.promptNextTurn(1);
+        move.promptNextTurn(true);
         assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
     public void displayCorrectWhiteTurnMessage() {
         String expectedOutput = "White turn: enter your move (e.g. 3 4):" + System.lineSeparator();
-        move.promptNextTurn(2);
+        move.promptNextTurn(false);
         assertEquals(expectedOutput, outContent.toString());
     }
 
@@ -53,21 +53,21 @@ public class MoveTest {
     public void quitCommandThrowsQuitGameException() {
         String input = "quit\n";
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        assertThrows(QuitGameException.class, () -> move.readMove(1));
+        assertThrows(QuitGameException.class, () -> move.readMove(true));
     }
 
     @Test
     public void validInputDoesNotThrowExceptions() {
         String input = "3 3" + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        assertDoesNotThrow(() -> move.readMove(1));
+        assertDoesNotThrow(() -> move.readMove(false));
     }
 
     @Test
     public void invalidInputThrowsInvalidFormatException() {
         String input = "hello there" + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        assertThrows(InvalidFormatException.class, () -> move.readMove(1));
+        assertThrows(InvalidFormatException.class, () -> move.readMove(true));
     }
 
     @ParameterizedTest
@@ -75,32 +75,32 @@ public class MoveTest {
     public void movesOutsideOfTheBoardThrowOutOfBoardException(String string) throws QuitGameException, InvalidFormatException {
         String input = string + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(1);
-        assertThrows(OutOfBoardException.class, () -> move.makeMove(1));
+        move.readMove(true);
+        assertThrows(OutOfBoardException.class, () -> move.makeMove(true));
     }
 
     @Test
     void repeatedMoveThrowsTakenNodeException() throws QuitGameException, InvalidFormatException {
         String input = "2 2" + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(1);
-        assertDoesNotThrow(() -> move.makeMove(1));
+        move.readMove(true);
+        assertDoesNotThrow(() -> move.makeMove(true));
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(2);
-        assertThrows(TakenNodeException.class, () -> move.makeMove(2));
+        move.readMove(false);
+        assertThrows(TakenNodeException.class, () -> move.makeMove(false));
     }
 
     @Test
     void checkingWinnerWhenNoWinDoesNotThrowGameWonException() throws QuitGameException, InvalidFormatException, TakenNodeException, OutOfBoardException {
         String input = "1 1" + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(1);
-        move.makeMove(1);
+        move.readMove(true);
+        move.makeMove(true);
         input = "1 2" + System.lineSeparator();
         System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(2);
-        move.makeMove(2);
-        assertDoesNotThrow(() -> move.checkWinner(2));
+        move.readMove(false);
+        move.makeMove(false);
+        assertDoesNotThrow(() -> move.checkWinner(false));
     }
 
     @Test
@@ -110,9 +110,9 @@ public class MoveTest {
             str = String.valueOf(i);
             input = str + " " + str + System.lineSeparator();
             System.setIn(new ByteArrayInputStream(input.getBytes()));
-            move.readMove(1);
-            move.makeMove(1);
+            move.readMove(true);
+            move.makeMove(true);
         }
-        assertThrows(GameWonException.class, () -> move.checkWinner(1));
+        assertThrows(GameWonException.class, () -> move.checkWinner(true));
     }
 }

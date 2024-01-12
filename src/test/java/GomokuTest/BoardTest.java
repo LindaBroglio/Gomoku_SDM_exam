@@ -1,6 +1,8 @@
 package GomokuTest;
 
 import Gomoku.Board;
+import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
+import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 import Gomoku.utilities.Color;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -163,25 +165,19 @@ public class BoardTest {
     public void DisplayBoardTest() {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
-
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         board.displayBoard();
-
         String ls = System.lineSeparator();
-        StringBuilder expectedOutput = new StringBuilder();
-        for (int i = 0; i < board.getBoardSize(); i++) {
-            for (int j = 0; j < board.getBoardSize(); j++) {
-                if (i == 0 && j == 0) {
-                    expectedOutput.append("B ");
-                } else if (i == 0 && j == 1) {
-                    expectedOutput.append("W ");
-                } else {
-                    expectedOutput.append(". ");
-                }
-            }
-            expectedOutput.append(ls);
-        }
-        assertEquals(expectedOutput.toString(), outContent.toString());
+        String expectedOutput =
+                "   1  2  3  4  5" + ls +
+                "1  B  W  ·  ·  ·  1" + ls +
+                "2  ·  ·  ·  ·  ·  2" + ls +
+                "3  ·  ·  ·  ·  ·  3" + ls +
+                "4  ·  ·  ·  ·  ·  4" + ls +
+                "5  ·  ·  ·  ·  ·  5" + ls +
+                "   1  2  3  4  5" + ls;
+        assertEquals(expectedOutput, outContent.toString());
     }
+
 }

@@ -14,11 +14,11 @@ public class Move {
         this.board = board;
     }
 
-    public void promptNextTurn(Integer turn) {
-        System.out.println((blackTurn(turn) ? "Black" : "White") + " turn: enter your move (e.g. 3 4):");
+    public void promptNextTurn(Boolean turn) {
+        System.out.println((turn ? "Black" : "White") + " turn: enter your move (e.g. 3 4):");
     }
 
-    public void readMove(Integer turn) throws QuitGameException, InvalidFormatException {
+    public void readMove(Boolean turn) throws QuitGameException, InvalidFormatException {
         String input = new Scanner(System.in).nextLine();
         Integer[] coordinates = new InputValidator(turn).validateInput(input);
         x = coordinates[0];
@@ -30,16 +30,14 @@ public class Move {
         if (nodeIsTaken()) throw new TakenNodeException("The node is already taken.");
     }
 
-    public void makeMove(Integer turn) throws TakenNodeException, OutOfBoardException {
+    public void makeMove(Boolean turn) throws TakenNodeException, OutOfBoardException {
         checkIfLegalMove();
-        board.placeStone(x - 1, y - 1, blackTurn(turn) ? Color.BLACK : Color.WHITE);
+        board.placeStone(x - 1, y - 1, turn ? Color.BLACK : Color.WHITE);
     }
 
-    public void checkWinner(Integer turn) throws GameWonException {
+    public void checkWinner(Boolean turn) throws GameWonException {
         if (board.isCurrentStonePartOfAWinningStreak(x - 1, y - 1)) throw new GameWonException(turn);
     }
-
-    private boolean blackTurn(Integer turn) { return turn % 2 == 1; }
 
     private boolean outOfBounds() { return x < 1 || x > board.getBoardSize() || y < 1 || y > board.getBoardSize(); }
 
