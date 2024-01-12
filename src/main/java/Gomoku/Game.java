@@ -8,14 +8,16 @@ import java.util.Scanner;
 
 public class Game {
     private final Board board;
-    private Integer turn;
+    private Boolean turn;
+    private Integer moveCount;
     private final Move move;
     private final Scanner scanner;
 
     public Game(Scanner scanner) {
+        this.moveCount = 0;
+        this.turn = true;
         this.scanner = scanner;
         this.board = new Board(inputBoardSize(), inputHowManyToWin());
-        this.turn = 0;
         this.move = new Move(board);
     }
 
@@ -33,28 +35,42 @@ public class Game {
         return scanner.nextInt();
     }
 
-    public void startGame() {
+    public void play() {
         displayBoard();
         while (boardIsNotFull()) {
             try {
-                move.promptNextTurn(++turn);
-                move.readMove(turn);
-                move.makeMove(turn);
-                move.checkWinner(turn);
+                makeAMove();
             } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
                 System.out.println(e.getMessage());
-                turn--;
                 continue;
-            } catch (QuitGameException | GameWonException e) {
+            } catch (QuitGameException e) {
+                System.out.println(e.getMessage());
+                break;
+            } catch (GameWonException e) {
+                displayBoard();
                 System.out.println(e.getMessage());
                 break;
             }
-            displayBoard();
+            nextTurn();
         }
-        displayBoard();
+        if (!boardIsNotFull()) displayDrawMessage();
     }
 
+    private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
+
+    private void makeAMove() throws QuitGameException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
+        move.promptNextTurn(turn);
+        move.readMove(turn);
+        move.makeMove(turn);
+        move.checkWinner(turn);
+    }
+    private void nextTurn() {
+        turn = !turn;
+        displayBoard();
+        increaseMoveCount();
+    }
+    private void increaseMoveCount() { moveCount = moveCount + 1; }
     public int getBoardSize() { return board.getBoardSize(); }
-    private boolean boardIsNotFull() { return turn < getBoardSize() * getBoardSize(); }
+    private boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
     private void displayBoard() { this.board.displayBoard(); }
 }

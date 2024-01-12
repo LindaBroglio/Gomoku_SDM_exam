@@ -13,7 +13,7 @@ public class InputTest {
 
     @BeforeEach
     public void setUp() {
-        validator = new InputValidator(1);
+        validator = new InputValidator(true);
     }
 
     @ParameterizedTest

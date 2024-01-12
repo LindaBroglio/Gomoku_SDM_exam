@@ -5,9 +5,9 @@ import Gomoku.Exceptions.InputExceptions.QuitGameException;
 
 public class InputValidator {
 
-    private final Integer turn;
+    private final Boolean turn;
 
-    public InputValidator(Integer turn) {
+    public InputValidator(Boolean turn) {
         this.turn = turn;
     }
 
