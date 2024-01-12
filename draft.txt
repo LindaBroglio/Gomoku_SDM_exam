@@ -31,7 +31,8 @@ V - create a class containing static methods and members for board specification
 Add:
 - variant where +5 stones does not count
 
-Move refactor:
-the placeStone in the Board class should only modify the color of the selected node
-it should not perform any kind of check
-there should be a method in a possible Move class that if no exceptions are thrown, invokes board.placeStone
+Done:
+- reorganizing test classes: created InputTest, MoveTest; all methods are tested
+
+To do:
+- Create a GameTest class and maybe a MainTestClass

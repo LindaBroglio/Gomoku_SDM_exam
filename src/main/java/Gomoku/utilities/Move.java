@@ -2,10 +2,7 @@ package Gomoku.utilities;
 
 import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
-import Gomoku.Exceptions.InputExceptions.InvalidFormatException;
-import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
-import Gomoku.Exceptions.InputExceptions.QuitGameException;
-import Gomoku.Exceptions.InputExceptions.TakenNodeException;
+import Gomoku.Exceptions.InputExceptions.*;
 
 import java.util.Scanner;
 
