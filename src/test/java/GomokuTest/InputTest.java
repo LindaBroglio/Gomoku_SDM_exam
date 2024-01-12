@@ -13,7 +13,7 @@ public class InputTest {
 
     @BeforeEach
     public void setUp() {
-        validator = new InputValidator(true);
+        validator = new InputValidator(true, 0);
     }
 
     @ParameterizedTest
@@ -30,6 +30,6 @@ public class InputTest {
 
     @Test
     public void doesQuitCommandThrowQuitGameException() {
-        assertThrows(QuitGameException.class, () -> validator.validateInput("quit"));
+        assertThrows(QuitException.class, () -> validator.validateInput("quit"));
     }
 }
