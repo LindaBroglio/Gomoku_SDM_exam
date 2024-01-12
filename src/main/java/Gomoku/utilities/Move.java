@@ -18,9 +18,14 @@ public class Move {
         System.out.println((turn ? "Black" : "White") + " turn: enter your move (e.g. 3 4):");
     }
 
-    public void readMove(Boolean turn) throws QuitGameException, InvalidFormatException {
+    public void readMove(Boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
         String input = new Scanner(System.in).nextLine();
-        Integer[] coordinates = new InputValidator(turn).validateInput(input);
+        Integer[] coordinates = new Integer[0];
+        try {
+            coordinates = new InputValidator(turn, moveCount).validateInput(input);
+        } catch (QuitException e) {
+            System.out.println(e.getMessage());
+        }
         x = coordinates[0];
         y = coordinates[1];
     }
