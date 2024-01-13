@@ -7,9 +7,7 @@ public class Main {
             Game game = new Game();
             game.play();
         } catch (QuitException e) {
-            // Handle the QuitException (if needed)
             System.out.println(e.getMessage());
-            // Exit the program without errors
             System.exit(0);
         }
     }

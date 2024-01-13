@@ -5,6 +5,7 @@ import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.utilities.InputValidator;
 import Gomoku.utilities.Move;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class Game {
@@ -14,69 +15,28 @@ public class Game {
     private final Move move;
     private final Scanner scanner;
     private final InputValidator inputValidator;
-/*
-    public Game(Scanner scanner) {
+
+    public Game(InputStream in) throws QuitException{
         this.moveCount = 0;
         this.turn = true;
-        this.scanner = scanner;
-        int boardSize = inputBoardSize();
-        int howManyToWin = inputHowManyToWin(boardSize);
-        this.board = new Board(boardSize, howManyToWin);
-        this.move = new Move(board);
-    }
-
-    public Game() {
-        this(new Scanner(System.in));
-    }
-
-    private Integer inputBoardSize() {
-        int boardSize;
-        do {
-            System.out.print("Please enter the board size (positive integer): ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("That's not a number!");
-                scanner.next(); // this is important!
-            }
-            boardSize = scanner.nextInt();
-        } while (boardSize <= 0);
-        return boardSize;
-    }
-
-    private Integer inputHowManyToWin(int boardSize) {
-        int howManyToWin;
-        do {
-            System.out.print("Please enter the number of pieces needed to win (positive integer, less than or equal to board size): ");
-            while (!scanner.hasNextInt()) {
-                System.out.println("That's not a number!");
-                scanner.next(); // this is important!
-            }
-            howManyToWin = scanner.nextInt();
-        } while (howManyToWin <= 0 || howManyToWin > boardSize);
-        return howManyToWin;
-    }*/
-
-    public Game(Scanner scanner) throws QuitException{
-        this.moveCount = 0;
-        this.turn = true;
-        this.scanner = scanner;
+        this.scanner = new Scanner(in);
         this.inputValidator = new InputValidator(true, moveCount);
         Integer[] inputs = inputBoardSizeAndWinningNumber();
         this.board = new Board(inputs[0], inputs[1]);
-        this.move = new Move(board);
+        this.move = new Move(board, in);
     }
 
-    public Game() throws QuitException{
-        this(new Scanner(System.in));
+    public Game() throws QuitException {
+        this(System.in);
     }
 
     private Integer[] inputBoardSizeAndWinningNumber() throws QuitException {
-        int boardSize=0, howManyToWin=0;
-        Integer[] validatedInputs;
+        Integer boardSize = 0, howManyToWin = 0;
         do {
             System.out.print("Please enter the board size and the number of pieces needed to win (e.g., '8 5'): ");
             String userInput = scanner.nextLine();
             try {
-                validatedInputs = inputValidator.validateInput(userInput);
+                Integer[] validatedInputs = inputValidator.validateInput(userInput);
                 boardSize = validatedInputs[0];
                 howManyToWin = validatedInputs[1];
             } catch (InvalidFormatException | ResignException e) {
@@ -108,6 +68,7 @@ public class Game {
         }
         if (!boardIsNotFull()) displayDrawMessage();
     }
+
 
     private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
 
