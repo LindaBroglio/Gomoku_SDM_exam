@@ -23,7 +23,7 @@ public class Game {
         this.inputValidator = new InputValidator(true, moveCount);
         Integer[] inputs = inputBoardSizeAndWinningNumber();
         this.board = new Board(inputs[0], inputs[1]);
-        this.move = new Move(board, in);
+        this.move = new Move(board, scanner);
     }
 
     public Game() throws QuitException {
@@ -40,10 +40,9 @@ public class Game {
                 boardSize = validatedInputs[0];
                 howManyToWin = validatedInputs[1];
             } catch (InvalidFormatException | ResignException e) {
-                System.out.println(e.getMessage());;
+                System.out.println(e.getMessage());
             }
         } while (howManyToWin <= 0 || boardSize < howManyToWin);
-
         return new Integer[]{boardSize, howManyToWin};
     }
 
@@ -72,7 +71,7 @@ public class Game {
 
     private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
 
-    private void makeAMove() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
+    public void makeAMove() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
         move.promptNextTurn(turn);
         increaseMoveCount();
         move.readMove(turn, moveCount);
