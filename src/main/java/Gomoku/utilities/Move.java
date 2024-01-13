@@ -21,6 +21,9 @@ public class Move {
         System.out.println((turn ? "Black" : "White") + " turn: enter your move (e.g. 3 4):");
     }
 
+    public void setX(Integer x) { this.x = x; }
+    public void setY(Integer y) { this.y = y; }
+
     public void readMove(Boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
         String input = scanner.nextLine();
         Integer[] coordinates = new Integer[0];
@@ -29,8 +32,8 @@ public class Move {
         } catch (QuitException e) {
             System.out.println(e.getMessage());
         }
-        x = coordinates[0];
-        y = coordinates[1];
+        setX(coordinates[0]);
+        setY(coordinates[1]);
     }
 
     private void checkIfLegalMove() throws OutOfBoardException, TakenNodeException {
