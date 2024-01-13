@@ -10,22 +10,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MoveTest {
 
-    private Move move;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
+    private Board board;
 
     @BeforeEach
     public void setUp() {
-        Board board = new Board(5, 3);
-        move = new Move(board);
+        board = new Board(5, 3);
         System.setOut(new PrintStream(outContent));
     }
 
@@ -34,8 +31,14 @@ public class MoveTest {
         System.setOut(originalOut);
     }
 
+    private Move createMoveWithInput(String input) {
+        ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+        return new Move(board, inContent);
+    }
+
     @Test
     public void displayCorrectBlackTurnMessage() {
+        Move move = createMoveWithInput("3 4" + System.lineSeparator());
         String expectedOutput = "Black turn: enter your move (e.g. 3 4):" + System.lineSeparator();
         move.promptNextTurn(true);
         assertEquals(expectedOutput, outContent.toString());
@@ -43,75 +46,60 @@ public class MoveTest {
 
     @Test
     public void displayCorrectWhiteTurnMessage() {
+        Move move = createMoveWithInput("3 4" + System.lineSeparator());
         String expectedOutput = "White turn: enter your move (e.g. 3 4):" + System.lineSeparator();
         move.promptNextTurn(false);
         assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test
-    public void quitCommandThrowsQuitGameException() {
-        String input = "quit\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+    public void quitCommandOnMoveOneThrowsResignException() {
+        Move move = createMoveWithInput("quit" + System.lineSeparator());
         assertThrows(ResignException.class, () -> move.readMove(true, 1));
     }
 
     @Test
     public void validInputDoesNotThrowExceptions() {
-        String input = "3 3" + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        Move move = createMoveWithInput("3 3" + System.lineSeparator());
         assertDoesNotThrow(() -> move.readMove(false, 2));
     }
 
     @Test
     public void invalidInputThrowsInvalidFormatException() {
-        String input = "hello there" + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        Move move = createMoveWithInput("hello there" + System.lineSeparator());
         assertThrows(InvalidFormatException.class, () -> move.readMove(true, 1));
     }
 
     @ParameterizedTest
     @CsvSource({"7 7", "-1 2", "-2 -8", "0 5"})
     public void movesOutsideOfTheBoardThrowOutOfBoardException(String string) throws ResignException, InvalidFormatException {
-        String input = string + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        Move move = createMoveWithInput(string + System.lineSeparator());
         move.readMove(true, 1);
         assertThrows(OutOfBoardException.class, () -> move.makeMove(true));
     }
 
     @Test
-    void repeatedMoveThrowsTakenNodeException() throws ResignException, InvalidFormatException {
-        String input = "2 2" + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(true, 1);
-        assertDoesNotThrow(() -> move.makeMove(true));
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(false, 2);
-        assertThrows(TakenNodeException.class, () -> move.makeMove(false));
+    public void repeatedMoveThrowsTakenNodeException() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException {
+        String inputMove = "2 2" + System.lineSeparator();
+        Move firstMove = createMoveWithInput(inputMove);
+        firstMove.readMove(true, 1);
+        firstMove.makeMove(true);
+        Move secondMove = createMoveWithInput(inputMove);
+        assertThrows(TakenNodeException.class, () -> {
+            secondMove.readMove(false, 2);
+            secondMove.makeMove(false);
+        });
     }
 
     @Test
-    void checkingWinnerWhenNoWinDoesNotThrowGameWonException() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException {
-        String input = "1 1" + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(true, 1);
-        move.makeMove(true);
-        input = "1 2" + System.lineSeparator();
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-        move.readMove(false, 2);
-        move.makeMove(false);
-        assertDoesNotThrow(() -> move.checkWinner(false));
-    }
-
-    @Test
-    void checkingWinnerWhenWinThrowsGameWonException() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException {
-        String str, input;
+    public void checkingWinnerWhenWinThrowsGameWonException() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException {
+        Move[] moveHolder = new Move[1];
         for (int i = 1; i < 4; i++) {
-            str = String.valueOf(i);
-            input = str + " " + str + System.lineSeparator();
-            System.setIn(new ByteArrayInputStream(input.getBytes()));
-            move.readMove(true, 1);
-            move.makeMove(true);
+            String input = i + " " + i + System.lineSeparator();
+            moveHolder[0] = createMoveWithInput(input);
+            moveHolder[0].readMove(true, i);
+            moveHolder[0].makeMove(true);
         }
-        assertThrows(GameWonException.class, () -> move.checkWinner(true));
+        assertThrows(GameWonException.class, () -> moveHolder[0].checkWinner(true));
     }
 }

@@ -4,14 +4,17 @@ import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 
+import java.io.InputStream;
 import java.util.Scanner;
 
 public class Move {
     private Integer x, y;
     private final Board board;
+    private Scanner scanner;
 
-    public Move(Board board) {
+    public Move(Board board, InputStream in) {
         this.board = board;
+        this.scanner = new Scanner(in);
     }
 
     public void promptNextTurn(Boolean turn) {
@@ -19,7 +22,7 @@ public class Move {
     }
 
     public void readMove(Boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
-        String input = new Scanner(System.in).nextLine();
+        String input = scanner.nextLine();
         Integer[] coordinates = new Integer[0];
         try {
             coordinates = new InputValidator(turn, moveCount).validateInput(input);
@@ -43,8 +46,6 @@ public class Move {
     public void checkWinner(Boolean turn) throws GameWonException {
         if (board.isCurrentStonePartOfAWinningStreak(x - 1, y - 1)) throw new GameWonException(turn);
     }
-
     private boolean outOfBounds() { return x < 1 || x > board.getBoardSize() || y < 1 || y > board.getBoardSize(); }
-
     private boolean nodeIsTaken() { return board.getGrid()[x - 1][y - 1].getColor() != Color.EMPTY; }
 }
