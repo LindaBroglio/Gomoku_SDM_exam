@@ -1,27 +1,16 @@
 package GomokuTest;
 
-import Gomoku.Board;
-import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.Game;
-import Gomoku.utilities.Move;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
 
     @Test
-    void doesQuitCommandThrowQuitGameException() {
+    void inputQuitCommand() {
         String simulatedUserInput = "quit" + System.lineSeparator();
         InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         assertThrows(QuitException.class, () -> new Game(in));
@@ -36,9 +25,55 @@ public class GameTest {
 
     @Test
     void inputGameSpecificationsAndQuit() throws QuitException {
-        String simulatedUserInput = "5 3" + System.lineSeparator() + "quit" + System.lineSeparator();
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                "quit" + System.lineSeparator();
         InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Game game = new Game(in);
-        assertThrows(ResignException.class, game::play);
+        assertThrows(ResignException.class, game::makeAMove);
+    }
+
+    @Test
+    void inputGameSpecificationsAndLegalMove() throws QuitException {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                "4 4" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Game game = new Game(in);
+        assertDoesNotThrow(game::makeAMove);
+    }
+
+    @Test
+    void inputGameSpecificationsAndInvalidInput() throws QuitException {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                "hello there" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Game game = new Game(in);
+        assertThrows(InvalidFormatException.class, game::makeAMove);
+    }
+
+    @Test
+    void inputGameSpecificationsAndIllegalMove() throws QuitException {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                "-2 13" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Game game = new Game(in);
+        assertThrows(OutOfBoardException.class, game::makeAMove);
+    }
+
+    @Test
+    void inputGameSpecificationsLegalMoveAndSameMoveAgain() throws QuitException {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                "2 2" + System.lineSeparator() +
+                "2 2" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Game game = new Game(in);
+        assertThrows(TakenNodeException.class, () -> {
+            game.makeAMove();
+            game.makeAMove();
+        });
     }
 }

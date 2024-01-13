@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.*;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +34,8 @@ public class MoveTest {
 
     private Move createMoveWithInput(String input) {
         ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
-        return new Move(board, inContent);
+        Scanner scanner = new Scanner(inContent);
+        return new Move(board, scanner);
     }
 
     @Test

@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class Move {
     private Integer x, y;
     private final Board board;
-    private Scanner scanner;
+    private final Scanner scanner;
 
-    public Move(Board board, InputStream in) {
+    public Move(Board board, Scanner scanner) {
         this.board = board;
-        this.scanner = new Scanner(in);
+        this.scanner = scanner;
     }
 
     public void promptNextTurn(Boolean turn) {
