@@ -3,7 +3,7 @@ package Gomoku;
 import Gomoku.utilities.Color;
 
 public class Node {
-    private Color color; // private because we want encapsulation
+    private Color color;
 
     public Node() { this.color = Color.EMPTY; }
 

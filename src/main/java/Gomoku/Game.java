@@ -2,89 +2,50 @@ package Gomoku;
 
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
-import Gomoku.utilities.InputValidator;
 import Gomoku.utilities.Move;
 
-import java.io.InputStream;
 import java.util.Scanner;
 
 public class Game {
-    private final Board board;
-    private Boolean turn;
+    final Board board;
+    private Boolean blackTurn;
     private Integer moveCount;
     private final Move move;
-    private final Scanner scanner;
-    private final InputValidator inputValidator;
 
-    public Game(InputStream in) throws QuitException{
+    public Game(Integer[] gameSpecification, Scanner scanner) {
         this.moveCount = 0;
-        this.turn = true;
-        this.scanner = new Scanner(in);
-        this.inputValidator = new InputValidator(true, moveCount);
-        Integer[] inputs = inputBoardSizeAndWinningNumber();
-        this.board = new Board(inputs[0], inputs[1]);
+        this.blackTurn = true;
+        Integer boardSize = gameSpecification[0];
+        Integer howManyToWin = gameSpecification[1];
+        this.board = new Board(boardSize, howManyToWin);
         this.move = new Move(board, scanner);
     }
 
-    public Game() throws QuitException {
-        this(System.in);
+    public Game(Integer[] gameSpecification) {
+        this(gameSpecification, null);
     }
 
-    private Integer[] inputBoardSizeAndWinningNumber() throws QuitException {
-        Integer boardSize = 0, howManyToWin = 0;
-        do {
-            System.out.print("Please enter the board size and the number of pieces needed to win (e.g., '8 5'): ");
-            String userInput = scanner.nextLine();
-            try {
-                Integer[] validatedInputs = inputValidator.validateInput(userInput);
-                boardSize = validatedInputs[0];
-                howManyToWin = validatedInputs[1];
-            } catch (InvalidFormatException | ResignException e) {
-                System.out.println(e.getMessage());
-            }
-        } while (howManyToWin <= 0 || boardSize < howManyToWin);
-        return new Integer[]{boardSize, howManyToWin};
-    }
-
-
-    public void play() {
-        displayBoard();
-        while (boardIsNotFull()) {
-            try {
-                makeAMove();
-            } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
-                System.out.println(e.getMessage());
-                continue;
-            } catch (ResignException e) {
-                System.out.println(e.getMessage());
-                break;
-            } catch (GameWonException e) {
-                displayBoard();
-                System.out.println(e.getMessage());
-                break;
-            }
-            nextTurn();
-        }
-        if (!boardIsNotFull()) displayDrawMessage();
-    }
-
-
-    private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
-
-    public void makeAMove() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
-        move.promptNextTurn(turn);
+    public void makeMoveCLI() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
+        move.promptNextTurn(blackTurn);
         increaseMoveCount();
-        move.readMove(turn, moveCount);
-        move.makeMove(turn);
-        move.checkWinner(turn);
+        move.readMove(blackTurn, moveCount);
+        move.makeMove(blackTurn);
+        move.checkWinner(blackTurn);
+        nextTurn();
     }
-    private void nextTurn() {
-        turn = !turn;
-        displayBoard();
 
+    public void makeMoveGUI(Integer x, Integer y) throws TakenNodeException, OutOfBoardException, GameWonException {
+        increaseMoveCount();
+        move.setX(x);
+        move.setY(y);
+        move.makeMove(blackTurn);
+        move.checkWinner(blackTurn);
+        nextTurn();
     }
-    private void increaseMoveCount() { moveCount = moveCount + 1; }
+
+    private void nextTurn() { blackTurn = !blackTurn; }
+    private void increaseMoveCount() { moveCount++; }
     public int getBoardSize() { return board.getBoardSize(); }
-    private boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
-    private void displayBoard() { this.board.displayBoard(); }
+    public boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
+    public boolean isBlackTurn() { return blackTurn; }
 }
