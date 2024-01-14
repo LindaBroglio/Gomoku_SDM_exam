@@ -14,7 +14,6 @@ public class InputValidator {
         this.moveCount = moveCount;
     }
 
-
     public Integer[] validateInput(String userInput) throws InvalidFormatException, ResignException, QuitException {
         if (moveCount == 0 && "quit".equalsIgnoreCase(userInput)){ throw new QuitException();}
         if (moveCount != 0 && "quit".equalsIgnoreCase(userInput)){ throw new ResignException(turn);}
@@ -22,7 +21,6 @@ public class InputValidator {
         if (userSplitInput.length != 2) throw new InvalidFormatException("Enter exactly two integers.");
         return fromStringToInteger(userSplitInput);
     }
-
 
     private Integer[] fromStringToInteger(String[] parts) throws InvalidFormatException {
         try {

@@ -58,14 +58,12 @@ public class GUI {
                 button.setOpaque(false);
                 button.setContentAreaFilled(false);
                 button.setBorderPainted(false);
-                Integer finalX = x;
-                Integer finalY = y;
+                Integer[] coordinates = new Integer[]{x, y};
                 button.addActionListener(e -> {
                     try {
                         button.setBackground(game.isBlackTurn() ? Color.BLACK : Color.WHITE);
                         button.setContentAreaFilled(true);
-                        game.makeMoveGUI(finalX, finalY);
-                        //button.setEnabled(false);
+                        game.makeMove(coordinates);
                     } catch (TakenNodeException ex) {
                         button.setBackground(game.isBlackTurn() ? Color.WHITE : Color.BLACK);
                         JOptionPane.showMessageDialog(gridFrame, "This node is already taken. Please choose another one.", "Invalid Move", JOptionPane.ERROR_MESSAGE);

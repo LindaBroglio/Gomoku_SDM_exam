@@ -1,7 +1,6 @@
 package GomokuTest;
 
 import Gomoku.CLI;
-import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.Game;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ public class CLITest {
         Integer[] gameSpecification = {15, 5};
         Game game = new Game(gameSpecification);
         CLI cli = new CLI();
-        assertThrows(QuitException.class, cli::play);
+        assertThrows(QuitException.class, cli::playFromCommandLine);
     }
 
     // Additional tests for CLI class...

@@ -12,32 +12,19 @@ public class Game {
     private Integer moveCount;
     private final Move move;
 
-    public Game(Integer[] gameSpecification, Scanner scanner) {
+    public Game(Integer[] gameSpecification) {
         this.moveCount = 0;
         this.blackTurn = true;
         Integer boardSize = gameSpecification[0];
         Integer howManyToWin = gameSpecification[1];
         this.board = new Board(boardSize, howManyToWin);
-        this.move = new Move(board, scanner);
+        this.move = new Move(board);
     }
 
-    public Game(Integer[] gameSpecification) {
-        this(gameSpecification, null);
-    }
-
-    public void makeMoveCLI() throws ResignException, InvalidFormatException, TakenNodeException, OutOfBoardException, GameWonException {
-        move.promptNextTurn(blackTurn);
+    public void makeMove(Integer[] coordinates) throws TakenNodeException, OutOfBoardException, GameWonException {
         increaseMoveCount();
-        move.readMove(blackTurn, moveCount);
-        move.makeMove(blackTurn);
-        move.checkWinner(blackTurn);
-        nextTurn();
-    }
-
-    public void makeMoveGUI(Integer x, Integer y) throws TakenNodeException, OutOfBoardException, GameWonException {
-        increaseMoveCount();
-        move.setX(x);
-        move.setY(y);
+        move.setX(coordinates[0]);
+        move.setY(coordinates[1]);
         move.makeMove(blackTurn);
         move.checkWinner(blackTurn);
         nextTurn();
@@ -45,7 +32,8 @@ public class Game {
 
     private void nextTurn() { blackTurn = !blackTurn; }
     private void increaseMoveCount() { moveCount++; }
-    public int getBoardSize() { return board.getBoardSize(); }
-    public boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
-    public boolean isBlackTurn() { return blackTurn; }
+    public Integer getMoveCount() { return moveCount; }
+    public Integer getBoardSize() { return board.getBoardSize(); }
+    public Boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
+    public Boolean isBlackTurn() { return blackTurn; }
 }
