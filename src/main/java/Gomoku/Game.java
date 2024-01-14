@@ -1,13 +1,12 @@
 package Gomoku;
 
+import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.utilities.Move;
 
-import java.util.Scanner;
-
 public class Game {
-    final Board board;
+    private final Board board;
     private Boolean blackTurn;
     private Integer moveCount;
     private final Move move;
@@ -22,14 +21,15 @@ public class Game {
     }
 
     public void makeMove(Integer[] coordinates) throws TakenNodeException, OutOfBoardException, GameWonException {
-        increaseMoveCount();
         move.setX(coordinates[0]);
         move.setY(coordinates[1]);
         move.makeMove(blackTurn);
+        increaseMoveCount();
         move.checkWinner(blackTurn);
         nextTurn();
     }
 
+    public void displayBoard() { board.displayBoard(); }
     private void nextTurn() { blackTurn = !blackTurn; }
     private void increaseMoveCount() { moveCount++; }
     public Integer getMoveCount() { return moveCount; }
