@@ -14,9 +14,17 @@ public class GUI {
 
     public GUI() {
         Integer[] options = {15, 19};
-        int selectedOption = JOptionPane.showOptionDialog(null, "Choose the board size:",
+        JFrame tempFrame = new JFrame();
+        tempFrame.setAlwaysOnTop(true);
+        tempFrame.setUndecorated(true);
+        tempFrame.setLocationRelativeTo(null);
+        tempFrame.setVisible(true);
+
+        int selectedOption = JOptionPane.showOptionDialog(tempFrame, "Choose the board size:",
                 "Board Size", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options, options[0]);
+        tempFrame.dispose();
+
         Integer size = options[selectedOption];
         Integer[] gameSpecification = {size, 5};
         game = new Game(gameSpecification);
@@ -57,13 +65,16 @@ public class GUI {
                         button.setBackground(game.isBlackTurn() ? Color.BLACK : Color.WHITE);
                         button.setContentAreaFilled(true);
                         game.makeMoveGUI(finalX, finalY);
-                        button.setEnabled(false);
+                        //button.setEnabled(false);
                     } catch (TakenNodeException ex) {
+                        button.setBackground(game.isBlackTurn() ? Color.WHITE : Color.BLACK);
                         JOptionPane.showMessageDialog(gridFrame, "This node is already taken. Please choose another one.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
                     } catch (OutOfBoardException ex) {
+                        button.setContentAreaFilled(false);
                         JOptionPane.showMessageDialog(gridFrame, "This move is out of the board boundaries. Please choose a valid position.", "Invalid Move", JOptionPane.ERROR_MESSAGE);
                     } catch (GameWonException ex) {
                         JOptionPane.showMessageDialog(gridFrame, game.isBlackTurn() ? "Black wins!" : "White wins!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        System.exit(0);
                     }
                 });
                 boardPanel.add(button);
