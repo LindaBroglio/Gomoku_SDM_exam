@@ -36,3 +36,15 @@ Done:
 
 To do:
 - Create a GameTest class and maybe a MainTestClass
+
+Written on sunday 14:
+- don't do System.exit(0) when typo in "GUI or CLI"
+V - fix board size error (it's 1 row and 1 col smaller) --> outofboard exception missing on right and bottom
+V - switch from squares to circles
+- in settings, show me 15 first, then 19
+- fix game (CLI) tests
+- exception errors to be shown on the board window and not a new one
+- when exiting with the default exit button, ask if you're sure
+    (you're exiting the game, are you sure? yes/no) especially during the game.
+    --> add quit button during the game so that resign exception can be thrown
+- from CLI let choose just between 15 and 19 for board size
