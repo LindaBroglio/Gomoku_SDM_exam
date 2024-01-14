@@ -17,7 +17,7 @@ public class Main {
             CLI cli;
             try {
                 cli = new CLI();
-                cli.play();
+                cli.playFromCommandLine();
             } catch (QuitException e) {
                 System.out.println(e.getMessage());
                 System.exit(0);

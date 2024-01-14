@@ -35,7 +35,7 @@ public class MoveTest {
     private Move createMoveWithInput(String input) {
         ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
         Scanner scanner = new Scanner(inContent);
-        return new Move(board, scanner);
+        return new Move(board);
     }
 
     @Test
