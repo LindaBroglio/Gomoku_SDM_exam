@@ -32,29 +32,7 @@ public class CLI {
             } catch (InvalidFormatException | ResignException e) { System.out.println(e.getMessage()); }
         }
     }
-/*
-    public void playFromCommandLine() {
-        displayBoard();
-        while (game.boardIsNotFull()) {
-            System.out.println("move: " + game.getMoveCount());
-            promptNextTurn(game.isBlackTurn());
-            try {
-                makeMove();
-            } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
-                System.out.println(e.getMessage());
-                continue;
-            } catch (ResignException e) {
-                System.out.println(e.getMessage());
-                break;
-            } catch (GameWonException e) {
-                displayBoard();
-                System.out.println(e.getMessage());
-                break;
-            }
-            displayBoard();
-        }
-        if (!game.boardIsNotFull()) displayDrawMessage();
-    }*/
+
     public void playFromCommandLine() {
         while (game.boardIsNotFull()) {
             displayBoard();
@@ -98,5 +76,5 @@ public class CLI {
     }
 
     private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
-    private void displayBoard() { game.board.displayBoard(); }
+    private void displayBoard() { game.displayBoard(); }
 }
