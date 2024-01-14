@@ -45,6 +45,7 @@ public class CLI {
                 game.makeMoveCLI();
             } catch (InvalidFormatException | OutOfBoardException | TakenNodeException e) {
                 System.out.println(e.getMessage());
+                continue;
             } catch (ResignException e) {
                 System.out.println(e.getMessage());
                 break;
