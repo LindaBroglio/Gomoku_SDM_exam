@@ -28,13 +28,15 @@ public class GUI {
         startNewGame(gameSpecification);
         JFrame gridFrame = new JFrame("Gomoku");
         gridFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        Integer cellSize = 600 / size;
+        Integer cellSize = 550 / size;
         Integer boardSize = cellSize * size;
         boardPanel = createBoardPanel(cellSize, boardSize);
         messageLabel = createMessageLabel();
 
         for (int x = 0; x <= size + 1; x++) {
             for (int y = 0; y <= size + 1; y++) {
+                //ImageIcon blackIcon = new ImageIcon(getClass().getResource("/blackStone.png"));
+                //ImageIcon whiteIcon = new ImageIcon(getClass().getResource("/whiteStone.png"));
                 CircleButton button = new CircleButton();
                 button.setBounds((x * cellSize) - (cellSize / 2), (y * cellSize) - (cellSize / 2), cellSize, cellSize);
                 Integer[] coordinates = new Integer[]{x, y};
@@ -43,14 +45,18 @@ public class GUI {
                     try {
                         game.makeMove(coordinates);
                         button.setCircleColor(game.isBlackTurn() ? Color.WHITE : Color.BLACK);
+                        //button.setCircleIcon(game.isBlackTurn() ? whiteIcon: blackIcon);
+                        if (!game.boardIsNotFull()) handleDraw();
                         messageLabel.setText(game.isBlackTurn() ? "Black turn" : "White turn");
                     } catch (TakenNodeException ex) {
-                        messageLabel.setText("This node is already taken. Please choose another one.");
+                        messageLabel.setText("This node is already taken, change spot!");
                     } catch (OutOfBoardException ex) {
                         button.setCircleColor(null);
-                        messageLabel.setText("This move is out of the board boundaries. Please choose a valid position.");
+                        //button.setIcon(null);
+                        messageLabel.setText("You tried a move out of the board: change spot!");
                     } catch (GameWonException ex) {
                         button.setCircleColor(game.isBlackTurn() ? Color.BLACK : Color.WHITE);
+                        //button.setCircleIcon(game.isBlackTurn() ? blackIcon: whiteIcon);
                         messageLabel.setText(game.isBlackTurn() ? "Black wins!" : "White wins!");
                         handleGameWon();
                     }
@@ -58,6 +64,15 @@ public class GUI {
                 boardPanel.add(button);
             }
         }
+
+        JButton resignButton = getResignButton();
+
+        JPanel boardContainerPanel = new JPanel(new BorderLayout());
+        boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
+
+        JPanel resignButtonPanel = new JPanel();
+        resignButtonPanel.setOpaque(false);
+        resignButtonPanel.add(resignButton);
 
         JButton quitButton = new JButton("Quit");
         quitButton.setBounds(10, boardSize + cellSize + 10, 80, 30);
@@ -75,7 +90,6 @@ public class GUI {
             if (option == JOptionPane.YES_OPTION) handleResignation();
         });
 
-        JPanel boardContainerPanel = new JPanel(new BorderLayout());
         boardContainerPanel.add(boardPanel, BorderLayout.CENTER);
 
         JPanel quitButtonPanel = new JPanel();
@@ -94,9 +108,34 @@ public class GUI {
         gridFrame.setVisible(true);
     }
 
+    private JButton getResignButton() {
+        JButton resignButton = new JButton();
+        resignButton.setPreferredSize(new Dimension(90, 30));
+        resignButton.setText("Resign");
+        resignButton.setForeground(Color.PINK);
+        resignButton.setFont(new Font("Courier", Font.PLAIN, 12));
+
+        resignButton.setBorder(BorderFactory.createLineBorder(Color.PINK, 2, true));
+        resignButton.setOpaque(false);
+
+        resignButton.addActionListener(e -> {
+            int option = JOptionPane.showOptionDialog(
+                    boardPanel,
+                    "Do you want to quit the game?",
+                    "Quit Game",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    null,
+                    null);
+            if (option == JOptionPane.YES_OPTION) handleResignation();
+        });
+        return resignButton;
+    }
+
     private void handleGameWon() {
-        int option = JOptionPane.showOptionDialog(boardPanel,"Game Over! " + (game.isBlackTurn() ? "Black" : "White") + " wins!\nDo you want to start a new game?",
-                "Game Over", JOptionPane.YES_NO_OPTION,
+        int option = JOptionPane.showOptionDialog(boardPanel,"Gomoku! " + (game.isBlackTurn() ? "Black" : "White") + " wins!\nDo you want to start a new game?",
+                "GOMOKU!", JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,null,
                 null,null);
         if (option == JOptionPane.YES_OPTION) restartGame();
@@ -135,13 +174,12 @@ public class GUI {
 
     private JLabel createMessageLabel() {
         messageLabel = new JLabel();
-        messageLabel.setForeground(Color.RED);
-        Font labelFont = new Font("Arial", Font.BOLD, 16);
+        messageLabel.setForeground(Color.PINK);
+        Font labelFont = new Font("Courier", Font.PLAIN, 17);
         messageLabel.setFont(labelFont);
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        messageLabel.setOpaque(true);
-        messageLabel.setBackground(new Color(255, 255, 204));
-        messageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setOpaque(false);
+        messageLabel.setBorder(new EmptyBorder(0, 0, 20, 0));
         return messageLabel;
     }
 
@@ -165,7 +203,7 @@ public class GUI {
                 g2d.setStroke(originalStroke);
             }
         };
-        boardPanel.setPreferredSize(new Dimension(boardSize + cellSize + 1, boardSize + cellSize + 1));
+        boardPanel.setPreferredSize(new Dimension(boardSize + cellSize + 3, boardSize + cellSize + 3));
         boardPanel.setLayout(null);
         return boardPanel;
     }
@@ -181,9 +219,9 @@ public class GUI {
         Integer[] options = {15, 19};
         int selectedOption =
                 JOptionPane.showOptionDialog(tempFrame,
-                "Choose the board size:","Board Size",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, options, options[0]);
+                        "Choose the board size:","Board Size",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                        null, options, options[0]);
         tempFrame.dispose();
         if (selectedOption == JOptionPane.CLOSED_OPTION) return null;
         return options[selectedOption];
@@ -191,15 +229,29 @@ public class GUI {
 
     private void handleResignation() {
         int option = JOptionPane.showOptionDialog(
-            boardPanel,
-            (game.isBlackTurn() ? "Black" : "White") + " has resigned." +
-                    System.lineSeparator() + "Do you want to start a new game?",
-            "Resignation",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
-            null,
-            null,
-            null);
+                boardPanel,
+                (game.isBlackTurn() ? "Black" : "White") + " has resigned." +
+                        System.lineSeparator() + "Do you want to start a new game?",
+                "Resignation",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                null);
+        if (option == JOptionPane.YES_OPTION) restartGame();
+        else System.exit(0);
+    }
+
+    private void handleDraw() {
+        int option = JOptionPane.showOptionDialog(
+                boardPanel,
+                "Board is now full: the game ends in a draw! \nDo you want to start a new game?",
+                "Draw",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                null);
         if (option == JOptionPane.YES_OPTION) restartGame();
         else System.exit(0);
     }
