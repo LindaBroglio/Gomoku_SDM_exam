@@ -7,7 +7,6 @@ public class Board {
     private final Integer boardSize;
     private final Integer howManyToWin;
 
-
     public Board(Integer boardSize, Integer howManyToWin) {
         this.boardSize = boardSize;
         this.howManyToWin = howManyToWin;
@@ -84,11 +83,10 @@ public class Board {
     }
 
     private Color nodeColor(Integer i, Integer j) {
-        return this.grid[i][j].getColor();
+        return grid[i][j].getColor();
     }
 
     public void displayBoard() {
-        int boardSize = getBoardSize();
         int maxNumberWidth = String.valueOf(boardSize).length();
 
         System.out.print(" ".repeat(maxNumberWidth));
@@ -96,9 +94,9 @@ public class Board {
             System.out.printf("%3d", i);
         }
         System.out.println();
-
+        String formatSpecifier = "%" + maxNumberWidth + "d ";
         for (int i = 0; i < boardSize; i++) {
-            System.out.printf("%" + maxNumberWidth + "d ", i + 1);
+            System.out.printf(formatSpecifier, i + 1);
             for (Node node : grid[i]) {
                 switch (node.getColor()) {
                     case BLACK -> System.out.print(" B ");

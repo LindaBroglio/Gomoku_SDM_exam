@@ -1,6 +1,5 @@
 package Gomoku;
 
-import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 import Gomoku.utilities.Move;
@@ -34,6 +33,6 @@ public class Game {
     private void increaseMoveCount() { moveCount++; }
     public Integer getMoveCount() { return moveCount; }
     public Integer getBoardSize() { return board.getBoardSize(); }
-    public Boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
-    public Boolean isBlackTurn() { return blackTurn; }
+    public boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
+    public boolean isBlackTurn() { return blackTurn; }
 }

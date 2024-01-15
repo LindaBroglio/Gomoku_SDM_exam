@@ -4,11 +4,9 @@ import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 
-import java.io.InputStream;
-import java.util.Scanner;
-
 public class Move {
-    private Integer x, y;
+    private Integer x;
+    private Integer y;
     private final Board board;
 
     public Move(Board board) {
@@ -18,7 +16,7 @@ public class Move {
     public void setX(Integer x) { this.x = x; }
     public void setY(Integer y) { this.y = y; }
 
-    public void makeMove(Boolean turn) throws TakenNodeException, OutOfBoardException {
+    public void makeMove(boolean turn) throws TakenNodeException, OutOfBoardException {
         checkIfLegalMove();
         board.placeStone(x - 1, y - 1, turn ? Color.BLACK : Color.WHITE);
     }

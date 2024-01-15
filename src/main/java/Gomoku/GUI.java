@@ -13,19 +13,18 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class GUI {
-
     private Game game;
     private JLabel messageLabel;
     private JPanel boardPanel;
     Integer size;
 
     public GUI() {
-        Integer[] gameSpecification = chooseBoardSize();
-        if (gameSpecification == null) System.exit(0);
-        size = gameSpecification[0];
+        size = chooseBoardSize();
+        if (size == null) System.exit(0);
+        Integer[] gameSpecification = new Integer[]{size, 5};
         startNewGame(gameSpecification);
         JFrame gridFrame = new JFrame("Gomoku");
-        gridFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gridFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         Integer cellSize = 600 / size;
         Integer boardSize = cellSize * size;
         boardPanel = createBoardPanel(cellSize, boardSize);
@@ -136,7 +135,7 @@ public class GUI {
         messageLabel.setForeground(Color.RED);
         Font labelFont = new Font("Arial", Font.BOLD, 16);
         messageLabel.setFont(labelFont);
-        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setOpaque(true);
         messageLabel.setBackground(new Color(255, 255, 204));
         messageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
@@ -157,8 +156,8 @@ public class GUI {
                 Stroke originalStroke = g2d.getStroke();
                 g2d.setStroke(new BasicStroke(2.0f));
                 for (int i = 0; i <= size + 1; i++) {
-                    g2d.draw(new Line2D.Float(cellSize * i, 0, cellSize * i, boardSize + cellSize));
-                    g2d.draw(new Line2D.Float(0, cellSize * i, boardSize + cellSize, cellSize * i));
+                    g2d.draw(new Line2D.Float((float) cellSize * i, 0, (float) cellSize * i, (float) boardSize + cellSize));
+                    g2d.draw(new Line2D.Float(0, (float) cellSize * i, (float) boardSize + cellSize, (float) cellSize * i));
                 }
                 g2d.setStroke(originalStroke);
             }
@@ -170,7 +169,7 @@ public class GUI {
 
     private void startNewGame(Integer[] gameSpecification) { game = new Game(gameSpecification); }
 
-    private Integer[] chooseBoardSize() {
+    private Integer chooseBoardSize() {
         JFrame tempFrame = new JFrame();
         tempFrame.setAlwaysOnTop(true);
         tempFrame.setUndecorated(true);
@@ -184,8 +183,7 @@ public class GUI {
                 null, options, options[0]);
         tempFrame.dispose();
         if (selectedOption == JOptionPane.CLOSED_OPTION) return null;
-        int size = options[selectedOption];
-        return new Integer[]{size, 5};
+        return options[selectedOption];
         }
     private void handleResignation() {
         int option = JOptionPane.showOptionDialog(

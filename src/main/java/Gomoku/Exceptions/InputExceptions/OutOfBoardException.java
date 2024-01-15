@@ -1,8 +1,6 @@
 package Gomoku.Exceptions.InputExceptions;
 
-import Gomoku.Exceptions.InputExceptions.IllegalMoveException;
-
-public class OutOfBoardException extends IllegalMoveException {
+public class OutOfBoardException extends InputException {
     public OutOfBoardException(String message) {
         super(message);
     }
