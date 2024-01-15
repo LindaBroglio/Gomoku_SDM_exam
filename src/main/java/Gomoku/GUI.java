@@ -11,12 +11,15 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUI {
     private Game game;
     private JLabel messageLabel;
     private JPanel boardPanel;
     Integer size;
+    private static final Logger LOGGER = Logger.getLogger(GUI.class.getName());
 
     public GUI() {
         size = chooseBoardSize();
@@ -150,7 +153,7 @@ public class GUI {
                 try {
                     Image backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/boardpanel.jpg")));
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                } catch (IOException e) { e.printStackTrace(); }
+                } catch (IOException e) { LOGGER.log(Level.SEVERE, "Error loading background image", e); }
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.BLACK);
                 Stroke originalStroke = g2d.getStroke();
