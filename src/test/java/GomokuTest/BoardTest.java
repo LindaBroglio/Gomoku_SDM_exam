@@ -1,10 +1,7 @@
 package GomokuTest;
 
 import Gomoku.Board;
-import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
-import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 import Gomoku.utilities.Color;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,7 +12,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTest {
+class BoardTest {
     private Board board;
     @BeforeEach
     void initBoard(){
@@ -23,18 +20,18 @@ public class BoardTest {
     }
 
     @Test
-    public void isBoardSizeCorrect() {
+    void isBoardSizeCorrect() {
         assertEquals(board.getBoardSize(), board.getGrid().length);
         assertEquals(board.getBoardSize(), board.getGrid()[0].length);
     }
 
     @Test
-    public void isANodeIsEmptyAfterInitialization() {
+    void isANodeIsEmptyAfterInitialization() {
         assertEquals(Color.EMPTY, board.getGrid()[0][0].getColor());
     }
 
     @Test
-    public void placeOneStone() {
+    void placeOneStone() {
         board.placeStone(0, 0, Color.BLACK);
         assertEquals(Color.BLACK, board.getGrid()[0][0].getColor());
     }
@@ -162,7 +159,7 @@ public class BoardTest {
     }
 
     @Test
-    public void DisplayBoardTest() {
+    void DisplayBoardTest() {
         board.placeStone(0, 0, Color.BLACK);
         board.placeStone(0, 1, Color.WHITE);
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();

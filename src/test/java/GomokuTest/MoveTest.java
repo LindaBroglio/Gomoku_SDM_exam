@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MoveTest {
+class MoveTest {
 
     private Move move;
     private static final Boolean blackTurn = true;
