@@ -187,17 +187,19 @@ public class GUI {
         tempFrame.dispose();
         if (selectedOption == JOptionPane.CLOSED_OPTION) return null;
         return options[selectedOption];
-        }
+    }
+
     private void handleResignation() {
         int option = JOptionPane.showOptionDialog(
-                boardPanel,
-                (game.isBlackTurn() ? "Black" : "White") + " has resigned.\nDo you want to start a new game?",
-                "Resignation",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                null,
-                null);
+            boardPanel,
+            (game.isBlackTurn() ? "Black" : "White") + " has resigned." +
+                    System.lineSeparator() + "Do you want to start a new game?",
+            "Resignation",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.INFORMATION_MESSAGE,
+            null,
+            null,
+            null);
         if (option == JOptionPane.YES_OPTION) restartGame();
         else System.exit(0);
     }
