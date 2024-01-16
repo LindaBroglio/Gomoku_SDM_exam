@@ -285,6 +285,4 @@ public class GUI {
         }
         return null;
     }
-
-    public Integer getSize() { return size; }
 }
