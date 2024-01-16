@@ -1,8 +1,8 @@
 package it.units.gomoku;
 
 import it.units.gomoku.exceptions.GameWonException;
-import it.units.gomoku.exceptions.inputexceptions.*;
 import it.units.gomoku.utilities.InputValidator;
+import it.units.gomoku.exceptions.inputexceptions.*;
 
 import java.util.Scanner;
 
@@ -10,16 +10,11 @@ public class CLI {
     private Game game;
     private final Scanner scanner;
     private final InputValidator inputValidator;
-    private final Engine engine;
-    private final boolean playAgainstComputer;
-
 
     public CLI(Scanner scanner) throws QuitException {
         this.scanner = scanner;
         this.inputValidator = new InputValidator(true, 0);
         this.game = new Game(inputBoardSizeAndHowManyToWin());
-        this.playAgainstComputer = askToPlayAgainstComputer();
-        this.engine = new Engine(game);
     }
 
     public CLI() throws QuitException { this(new Scanner(System.in)); }
@@ -33,16 +28,6 @@ public class CLI {
                 if (validatedInputs[1] > 0 && validatedInputs[0] >= validatedInputs[1]) return validatedInputs;
                 System.out.println("Invalid board size or number of pieces to win. Please try again.");
             } catch (InvalidFormatException | ResignException e) { System.out.println(e.getMessage()); }
-        }
-    }
-
-    private boolean askToPlayAgainstComputer() {
-        System.out.println("Do you want to play against the computer (yes / no)?");
-        while(true) {
-            String userInput = scanner.nextLine();
-            if (userInput.equalsIgnoreCase("yes")) return true;
-            else if (userInput.equalsIgnoreCase("no")) return false;
-            else System.out.println("Enter yes or no");
         }
     }
 
@@ -90,7 +75,6 @@ public class CLI {
     }
 
     public void makeMove() throws ResignException, InvalidFormatException, TakenNodeException, GameWonException, OutOfBoardException {
-        if (playAgainstComputer) if (isBlackTurn()) { engine.makeMove(); return; }
         game.makeMove(readMove(isBlackTurn(), getMoveCount()));
     }
 

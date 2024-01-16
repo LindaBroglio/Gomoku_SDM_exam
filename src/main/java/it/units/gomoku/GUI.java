@@ -25,15 +25,10 @@ public class GUI {
     private static final String TEMPLE_IMAGE_PATH = "/temple.png";
     private static final String BLACK = "Black";
     private static final String WHITE = "White";
-    private Engine engine;
-    private boolean playAgainstEngine = true;
-    private final CircleButton[][] buttons;
 
     public GUI() {
         size = chooseBoardSize();
         if (size == null) System.exit(0);
-        playAgainstEngine = askPlayAgainstComputer();
-        buttons = new CircleButton[size + 2][size + 2];
         startNewGame(new Integer[]{size, 5});
         JFrame gridFrame = createGridFrame();
         createNodeButtons();
@@ -41,21 +36,6 @@ public class GUI {
         JPanel mainPanel = createMainPanel(resignButton);
         setBackgroundPanel(gridFrame, mainPanel);
         adjustAppearance(gridFrame);
-    }
-
-    private boolean askPlayAgainstComputer() {
-        JFrame tempFrame = new JFrame();
-        tempFrame.setAlwaysOnTop(true);
-        tempFrame.setUndecorated(true);
-        tempFrame.setLocationRelativeTo(null);
-        tempFrame.setVisible(true);
-        Object[] options = {"Yes", "No"};
-        int selectedOption = JOptionPane.showOptionDialog(tempFrame,
-                "Do you want to play against the computer?", "Choose your opponent",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-                null, options, options[0]);
-        tempFrame.dispose();
-        return selectedOption == 0;
     }
 
     private Integer chooseBoardSize() {
@@ -77,7 +57,6 @@ public class GUI {
 
     private void startNewGame(Integer[] gameSpecification) {
         game = new Game(gameSpecification);
-        engine = new Engine(game);
     }
 
     private JFrame createGridFrame() {
@@ -93,8 +72,7 @@ public class GUI {
         messageLabel = createMessageLabel();
         for (int x = 0; x <= size + 1; x++) {
             for (int y = 0; y <= size + 1; y++) {
-                buttons[x][y] = createNodeButton(new Integer[]{x, y}, cellSize);
-                boardPanel.add(buttons[x][y]);
+                boardPanel.add(createNodeButton(new Integer[]{x, y}, cellSize));
             }
         }
     }
@@ -111,12 +89,6 @@ public class GUI {
 
     private void handleNodeButtonAction(CircleButton button, Integer[] coordinates, ImageIcon blackIcon, ImageIcon whiteIcon) {
         try {
-            if (playAgainstEngine) {
-                engine.makeMove();
-                Integer[] engineMove = engine.getLastMove();
-                buttons[engineMove[0]][engineMove[1]].setCircleIcon(blackIcon);
-                messageLabel.setText("White turn");
-            }
             game.makeMove(coordinates);
             button.setCircleIcon(game.isBlackTurn() ? whiteIcon : blackIcon);
             if (game.boardIsFull()) handleDraw();
