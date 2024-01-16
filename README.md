@@ -9,7 +9,7 @@ comprehensive of both a Command Line Interface and a Graphical User Interface.
 
 The code was written using IntelliJ (with Gradle for building)
 and GitHub was used as a Version Control System.
-The project was Test Driven and developed using Continuous Integration (with Circle CI as CI System): [CircleCI](https://dl.circleci.com/status-badge/img/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main.svg?style=shield)(https://dl.circleci.com/status-badge/redirect/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main)
+The project was Test Driven and developed using Continuous Integration (with Circle CI as CI System): [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main)
 Moreover, SonarQube was used as code analysis tool.
 
 #### Versions used
