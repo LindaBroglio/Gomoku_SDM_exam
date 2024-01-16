@@ -28,6 +28,7 @@ public class GUI {
         if (size == null) System.exit(0);
         startNewGame(new Integer[]{size, 5});
         JFrame gridFrame = createGridFrame();
+        buttons = new CircleButton[size + 2][size + 2];
         createButtons();
         JButton resignButton = createResignButton();
         JPanel mainPanel = createMainPanel(resignButton);
@@ -251,6 +252,8 @@ public class GUI {
         if (option == JOptionPane.YES_OPTION) restartGame();
         else System.exit(0);
     }
+
+    public JButton getButtons(Integer x, Integer y) { return buttons[x][y]; }
 
     static class CircleButton extends JButton {
         private ImageIcon circleIcon;
