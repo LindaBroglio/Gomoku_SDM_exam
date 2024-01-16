@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class GUITest {
 
     @Test
-    @Disabled
     void instantiateGUIAndTestAButton() {
         GUI gui = new GUI();
         JButton node = gui.getButtons(1,1);
