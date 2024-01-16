@@ -27,7 +27,8 @@ class CLITest {
     void invalidFormatGameSpecificationDoesNotThrow() {
         String simulatedUserInput =
                 "hello there" + System.lineSeparator() +
-                        "8 5" + System.lineSeparator();
+                        "8 5" + System.lineSeparator() +
+                        "no" + System.lineSeparator();
         InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
         assertDoesNotThrow(() -> new CLI(scanner));
@@ -37,7 +38,8 @@ class CLITest {
     void validFormatButIllegalSpecificationDoesNotThrow() {
         String simulatedUserInput =
                 "5 8" + System.lineSeparator() +
-                        "8 5" + System.lineSeparator();
+                        "8 5" + System.lineSeparator() +
+                        "no" + System.lineSeparator();
         InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
         assertDoesNotThrow(() -> new CLI(scanner));
@@ -45,7 +47,8 @@ class CLITest {
 
     @Test
     void inputCorrectGameSpecifications() {
-        String simulatedUserInput = "5 3" + System.lineSeparator();
+        String simulatedUserInput = "5 3" + System.lineSeparator()
+                + "no" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
         assertDoesNotThrow(() -> new CLI(scanner));
@@ -55,6 +58,7 @@ class CLITest {
     void inputCorrectGameSpecificationsAndQuit() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "quit" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
@@ -66,6 +70,7 @@ class CLITest {
     void inputGameSpecificationsAndInvalidInput() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "hello there" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
@@ -77,6 +82,7 @@ class CLITest {
     void inputGameSpecificationsAndOutOfBoardMove() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "-1 2" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
@@ -88,6 +94,7 @@ class CLITest {
     void inputGameSpecificationsAndLegalMove() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 2" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
@@ -99,6 +106,7 @@ class CLITest {
     void inputGameSpecificationsAndSameLegalMoveTwice() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "3 4" + System.lineSeparator() +
                         "3 4" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
@@ -112,6 +120,7 @@ class CLITest {
     void inputGameSpecificationsAndWinningSequence() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 1" + System.lineSeparator() +
                         "2 1" + System.lineSeparator() +
                         "1 2" + System.lineSeparator() +
@@ -131,6 +140,7 @@ class CLITest {
     void playAGameWhereBlackWins() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 1" + System.lineSeparator() +
                         "2 1" + System.lineSeparator() +
                         "1 2" + System.lineSeparator() +
@@ -147,6 +157,7 @@ class CLITest {
     void playAGameWhereBlackQuits() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 1" + System.lineSeparator() +
                         "2 1" + System.lineSeparator() +
                         "quit" + System.lineSeparator();
@@ -160,6 +171,7 @@ class CLITest {
     void playAGameWhereWhiteIsNotAbleToMakeACorrectMoveAndGivesUp() {
         String simulatedUserInput =
                 "5 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 1" + System.lineSeparator() +
                         "0 5" + System.lineSeparator() +
                         "why" + System.lineSeparator() +
@@ -175,6 +187,7 @@ class CLITest {
     void playADrawnGame() {
         String simulatedUserInput =
                 "3 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator() +
                         "1 1" + System.lineSeparator() +
                         "1 3" + System.lineSeparator() +
                         "1 2" + System.lineSeparator() +

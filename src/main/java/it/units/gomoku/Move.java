@@ -1,9 +1,9 @@
 package it.units.gomoku;
 
 import it.units.gomoku.exceptions.GameWonException;
-import it.units.gomoku.utilities.Color;
 import it.units.gomoku.exceptions.inputexceptions.OutOfBoardException;
 import it.units.gomoku.exceptions.inputexceptions.TakenNodeException;
+import it.units.gomoku.utilities.Color;
 
 public class Move {
     private Integer x;
