@@ -20,6 +20,7 @@ public class GUI {
     private JLabel messageLabel;
     private JPanel boardPanel;
     Integer size;
+    private final CircleButton[][] buttons;
     private static final Logger LOGGER = Logger.getLogger(GUI.class.getName());
 
     public GUI() {
@@ -51,7 +52,8 @@ public class GUI {
         messageLabel = createMessageLabel();
         for (int x = 0; x <= size + 1; x++) {
             for (int y = 0; y <= size + 1; y++) {
-                boardPanel.add(createButton(new Integer[]{x, y}, cellSize));
+                buttons[x][y] = createButton(new Integer[]{x, y}, cellSize);
+                boardPanel.add(buttons[x][y]);
             }
         }
     }
