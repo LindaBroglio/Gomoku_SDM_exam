@@ -96,10 +96,7 @@ public class CLI {
         }
     }
 
-    private void resetGame() throws QuitException {
-        this.game = new Game(inputBoardSizeAndHowManyToWin());
-    }
-
+    private void resetGame() throws QuitException { this.game = new Game(inputBoardSizeAndHowManyToWin()); }
     private boolean boardIsFull() {return game.boardIsFull();}
     private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
     private void displayBoard() { game.displayBoard(); }

@@ -21,6 +21,9 @@ public class GUI {
     private JPanel boardPanel;
     Integer size;
     private static final Logger LOGGER = Logger.getLogger(GUI.class.getName());
+    private static final String TEMPLE_IMAGE_PATH = "/temple.png";
+    private static final String BLACK = "Black";
+    private static final String WHITE = "White";
 
     public GUI() {
         size = chooseBoardSize();
@@ -35,15 +38,14 @@ public class GUI {
     }
 
     private Integer chooseBoardSize() {
-        ImageIcon icon = createImageIcon("/temple.png");
+        ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
         JFrame tempFrame = new JFrame();
         tempFrame.setAlwaysOnTop(true);
         tempFrame.setUndecorated(true);
         tempFrame.setLocationRelativeTo(null);
         tempFrame.setVisible(true);
         Integer[] options = {15, 19};
-        int selectedOption =
-                JOptionPane.showOptionDialog(tempFrame,
+        int selectedOption = JOptionPane.showOptionDialog(tempFrame,
                         "Choose the board size:", "Let's play Gomoku!",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                         icon, options, options[0]);
@@ -115,7 +117,7 @@ public class GUI {
     }
 
     private JButton createResignButton() {
-        ImageIcon icon = createImageIcon("/temple.png");
+        ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
         JButton resignButton = new JButton();
         resignButton.setPreferredSize(new Dimension(90, 30));
         resignButton.setText("Resign");
@@ -126,8 +128,7 @@ public class GUI {
         resignButton.setOpaque(false);
 
         resignButton.addActionListener(e -> {
-            int option = JOptionPane.showOptionDialog(
-                    boardPanel,
+            int option = JOptionPane.showOptionDialog(boardPanel,
                     "Are you sure you want to resign?",
                     "Resign?",
                     JOptionPane.YES_NO_OPTION,
@@ -187,10 +188,9 @@ public class GUI {
     }
 
     private void handleGameWon() {
-        ImageIcon icon = createImageIcon("/temple.png");
-        int option = JOptionPane.showOptionDialog(
-                boardPanel,
-                "Gomoku! " + (game.isBlackTurn() ? "Black" : "White") + " wins!\nDo you want to play again?",
+        ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
+        int option = JOptionPane.showOptionDialog(boardPanel,
+                "Gomoku! " + (game.isBlackTurn() ? BLACK : WHITE) + " wins!" + System.lineSeparator() + "Do you want to play again?",
                 "GOMOKU!",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
@@ -206,7 +206,7 @@ public class GUI {
         messageLabel.setForeground(Color.PINK);
         Font labelFont = new Font("Courier", Font.PLAIN, 17);
         messageLabel.setFont(labelFont);
-        messageLabel.setHorizontalAlignment(JLabel.CENTER);
+        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         messageLabel.setOpaque(false);
         messageLabel.setBorder(new EmptyBorder(0, 0, 20, 0));
         return messageLabel;
@@ -220,9 +220,8 @@ public class GUI {
                 try {
                     Image backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/boardpanel.jpg")));
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                } catch (IOException e) {
-                    LOGGER.log(Level.SEVERE, "Error loading background image", e);
-                }
+                } catch (IOException e) { LOGGER.log(Level.SEVERE, "Error loading background image", e); }
+
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.BLACK);
                 Stroke originalStroke = g2d.getStroke();
@@ -248,11 +247,10 @@ public class GUI {
     }
 
     private void handleResignation() {
-        ImageIcon icon = createImageIcon("/temple.png");
-        int option = JOptionPane.showOptionDialog(
-                boardPanel,
-                (game.isBlackTurn() ? "Black" : "White") + " has resigned: " +
-                        (game.isBlackTurn() ? "White" : "Black") +
+        ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
+        int option = JOptionPane.showOptionDialog(boardPanel,
+                (game.isBlackTurn() ? BLACK : WHITE) + " has resigned: " +
+                        (game.isBlackTurn() ? WHITE : BLACK) +
                         " wins!\nDo you want to start a new game?",
                 "Game Over",
                 JOptionPane.YES_NO_OPTION,
@@ -265,9 +263,8 @@ public class GUI {
     }
 
     private void handleDraw() {
-        ImageIcon icon = createImageIcon("/temple.png");
-        int option = JOptionPane.showOptionDialog(
-                boardPanel,
+        ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
+        int option = JOptionPane.showOptionDialog(boardPanel,
                 "Board is now full: the game ends in a draw! \nDo you want to start a new game?",
                 "Draw",
                 JOptionPane.YES_NO_OPTION,

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.net.URL;
 
 public class BackgroundPanel extends JPanel {
-    private Image backgroundImage;
+    private transient Image backgroundImage;
 
     public BackgroundPanel(String imagePath) {
         URL imageUrl = getClass().getResource(imagePath);

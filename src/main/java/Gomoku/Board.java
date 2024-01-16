@@ -23,14 +23,8 @@ public class Board {
     public Node[][] getGrid() {
         return this.grid;
     }
-
-    public void placeStoneAtPosition(Integer x, Integer y, Color color)  {
-        this.grid[x][y].setColor(color);
-    }
-
-    public boolean isCurrentStonePartOfAWinningStreak(Integer row, Integer col) {
-        return checkInAllDirections(row, col);
-    }
+    public void placeStoneAtPosition(Integer x, Integer y, Color color)  { this.grid[x][y].setColor(color); }
+    public boolean isCurrentStonePartOfAWinningStreak(Integer row, Integer col) { return checkInAllDirections(row, col); }
 
     private boolean checkInAllDirections(Integer row, Integer col){
         return checkForHorizontalStreak(row, col) ||
@@ -74,18 +68,6 @@ public class Board {
         return consecutiveCount;
     }
 
-    private boolean isPositionOutOfBounds(int row, int col) {
-        return row < 0 || row >= boardSize || col < 0 || col >= boardSize;
-    }
-
-    private boolean isStoneColorDifferent(int row, int col, Color referenceColor) {
-        return nodeColor(row, col) != referenceColor;
-    }
-
-    private Color nodeColor(Integer i, Integer j) {
-        return grid[i][j].getColor();
-    }
-
     public void display() {
         int maxNumberWidth = String.valueOf(boardSize).length();
 
@@ -115,11 +97,11 @@ public class Board {
         System.out.println();
     }
 
-    public Integer getSize() {
-        return boardSize;
-    }
-
+    public Integer getSize() { return boardSize; }
     public Integer getHowManyToWin() {
         return howManyToWin;
     }
+    private boolean isPositionOutOfBounds(int row, int col) { return row < 0 || row >= boardSize || col < 0 || col >= boardSize; }
+    private boolean isStoneColorDifferent(int row, int col, Color referenceColor) { return nodeColor(row, col) != referenceColor; }
+    private Color nodeColor(Integer i, Integer j) { return grid[i][j].getColor(); }
 }

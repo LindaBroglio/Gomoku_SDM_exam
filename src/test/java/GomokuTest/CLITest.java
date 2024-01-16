@@ -124,7 +124,7 @@ class CLITest {
         for (int i = 0; i < 4; i++) assertDoesNotThrow(() -> cli.makeMove());
         assertThrows(GameWonException.class, () -> cli.makeMove());
         assertTrue(cli.isBlackTurn()); // Turn is not changed after winning
-        assertEquals(cli.getMoveCount(), 5); // Move is not increased after winning
+        assertEquals(5, cli.getMoveCount()); // Move is not increased after winning
     }
 
     @Test
