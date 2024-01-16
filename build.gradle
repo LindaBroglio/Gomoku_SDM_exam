@@ -39,3 +39,9 @@ sonar {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest{
+        attributes 'Main-Class': 'it.units.gomoku.Main'
+    }
+}

@@ -9,7 +9,8 @@ comprehensive of both a Command Line Interface and a Graphical User Interface.
 
 The code was written using IntelliJ (with Gradle for building)
 and GitHub was used as a Version Control System.
-The project was Test Driven and developed using Continuous Integration (with Circle CI as CI System).
+The project was Test Driven and developed using Continuous Integration (with Circle CI as CI System): [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/UAmhFYjA97B8GqJNFHGBvv/AdKaiVd9BYcmFFKNbbRwaE/tree/main)
+Moreover, SonarQube was used as code analysis tool.
 
 #### Versions used
 - Java: 17
@@ -17,8 +18,3 @@ The project was Test Driven and developed using Continuous Integration (with Cir
 - SonarQube: 10.3
 - Gradle Plugin for SonarQube: 4.4.1.3373
 
-## How to download and run the game
-The only required software is OpenJdk-17, which can be installed through this page:
-https://jdk.java.net/archive/.
-Once OpenJdk-17 is installed, the user can download the executable files from the
-[distribution's directory](build/distributions), or with a single click on the button below.
