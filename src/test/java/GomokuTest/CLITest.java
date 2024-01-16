@@ -1,6 +1,7 @@
 package GomokuTest;
 
 import Gomoku.CLI;
+import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +21,26 @@ class CLITest {
         InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
         assertThrows(QuitException.class, () -> new CLI(scanner));
+    }
+
+    @Test
+    void invalidFormatGameSpecificationDoesNotThrow() {
+        String simulatedUserInput =
+                "hello there" + System.lineSeparator() +
+                        "8 5" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> new CLI(scanner));
+    }
+
+    @Test
+    void validFormatButIllegalSpecificationDoesNotThrow() {
+        String simulatedUserInput =
+                "5 8" + System.lineSeparator() +
+                        "8 5" + System.lineSeparator();
+        InputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> new CLI(scanner));
     }
 
     @Test
@@ -85,6 +106,87 @@ class CLITest {
         assertDoesNotThrow(() -> cli = new CLI(scanner));
         assertDoesNotThrow(() -> cli.makeMove());
         assertThrows(TakenNodeException.class, () -> cli.makeMove());
+    }
+
+    @Test
+    void inputGameSpecificationsAndWinningSequence() {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                        "1 1" + System.lineSeparator() +
+                        "2 1" + System.lineSeparator() +
+                        "1 2" + System.lineSeparator() +
+                        "2 2" + System.lineSeparator() +
+                        "1 3" + System.lineSeparator();
+        ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> cli = new CLI(scanner));
+        assertTrue(cli.isBlackTurn());
+        for (int i = 0; i < 4; i++) assertDoesNotThrow(() -> cli.makeMove());
+        assertThrows(GameWonException.class, () -> cli.makeMove());
+        assertTrue(cli.isBlackTurn()); // Turn is not changed after winning
+        assertEquals(cli.getMoveCount(), 5); // Move is not increased after winning
+    }
+
+    @Test
+    void playAGameWhereBlackWins() {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                        "1 1" + System.lineSeparator() +
+                        "2 1" + System.lineSeparator() +
+                        "1 2" + System.lineSeparator() +
+                        "2 2" + System.lineSeparator() +
+                        "1 3" + System.lineSeparator();
+        ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> cli = new CLI(scanner));
+        assertDoesNotThrow(() -> cli.playFromCommandLine());
+    }
+
+    @Test
+    void playAGameWhereBlackQuits() {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                        "1 1" + System.lineSeparator() +
+                        "2 1" + System.lineSeparator() +
+                        "quit" + System.lineSeparator();
+        ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> cli = new CLI(scanner));
+        assertDoesNotThrow(() -> cli.playFromCommandLine());
+    }
+
+    @Test
+    void playAGameWhereWhiteIsNotAbleToMakeACorrectMoveAndGivesUp() {
+        String simulatedUserInput =
+                "5 3" + System.lineSeparator() +
+                        "1 1" + System.lineSeparator() +
+                        "0 5" + System.lineSeparator() +
+                        "why" + System.lineSeparator() +
+                        "1 2 3" + System.lineSeparator() +
+                        "quit" + System.lineSeparator();
+        ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> cli = new CLI(scanner));
+        assertDoesNotThrow(() -> cli.playFromCommandLine());
+    }
+
+    @Test
+    void playADrawnGame() {
+        String simulatedUserInput =
+                "3 3" + System.lineSeparator() +
+                        "1 1" + System.lineSeparator() +
+                        "1 3" + System.lineSeparator() +
+                        "1 2" + System.lineSeparator() +
+                        "2 1" + System.lineSeparator() +
+                        "2 2" + System.lineSeparator() +
+                        "3 2" + System.lineSeparator() +
+                        "2 3" + System.lineSeparator() +
+                        "3 3" + System.lineSeparator() +
+                        "3 1" + System.lineSeparator();
+        ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
+        Scanner scanner = new Scanner(in);
+        assertDoesNotThrow(() -> cli = new CLI(scanner));
+        assertDoesNotThrow(() -> cli.playFromCommandLine());
     }
 }
 

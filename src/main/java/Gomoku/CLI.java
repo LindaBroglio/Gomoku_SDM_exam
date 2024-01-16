@@ -17,9 +17,7 @@ public class CLI {
         this.game = new Game(inputBoardSizeAndWinningNumber());
     }
 
-    public CLI() throws QuitException {
-        this(new Scanner(System.in));
-    }
+    public CLI() throws QuitException { this(new Scanner(System.in)); }
 
     private Integer[] inputBoardSizeAndWinningNumber() throws QuitException {
         System.out.print("Please enter the board size and the number of pieces needed to win (e.g., '8 5'): ");
@@ -36,7 +34,7 @@ public class CLI {
     public void playFromCommandLine() {
         while (game.boardIsNotFull()) {
             displayBoard();
-            promptNextTurn(game.isBlackTurn());
+            promptNextTurn(isBlackTurn());
             if (!tryToMakeAValidMove()) break;
         }
         if (!game.boardIsNotFull()) displayDrawMessage();
@@ -64,17 +62,19 @@ public class CLI {
     }
 
     public void makeMove() throws ResignException, InvalidFormatException, TakenNodeException, GameWonException, OutOfBoardException {
-        game.makeMove(readMove(game.isBlackTurn(), game.getMoveCount()));
+        game.makeMove(readMove(isBlackTurn(), getMoveCount()));
     }
 
     private Integer[] readMove(Boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
         while (true) {
             String input = scanner.nextLine();
             try { return new InputValidator(turn, moveCount).validateInput(input); }
-            catch (QuitException e) { throw new ResignException(game.isBlackTurn()); }
+            catch (QuitException e) { throw new ResignException(isBlackTurn()); }
         }
     }
 
     private void displayDrawMessage() { System.out.println("Board is now full: Game ends in a draw!"); }
     private void displayBoard() { game.displayBoard(); }
+    public boolean isBlackTurn() { return game.isBlackTurn(); }
+    public Integer getMoveCount() { return game.getMoveCount(); }
 }
