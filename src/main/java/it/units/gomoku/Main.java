@@ -1,7 +1,5 @@
 package it.units.gomoku;
 
-import it.units.gomoku.CLI;
-import it.units.gomoku.GUI;
 import it.units.gomoku.exceptions.inputexceptions.QuitException;
 
 import javax.swing.*;
