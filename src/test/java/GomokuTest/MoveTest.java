@@ -3,7 +3,7 @@ package GomokuTest;
 import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
-import Gomoku.utilities.Move;
+import Gomoku.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

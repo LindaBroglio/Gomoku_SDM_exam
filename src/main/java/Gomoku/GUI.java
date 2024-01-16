@@ -4,6 +4,7 @@ import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
 import Gomoku.Exceptions.InputExceptions.TakenNodeException;
 import Gomoku.utilities.BackgroundPanel;
+import Gomoku.utilities.CircleButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

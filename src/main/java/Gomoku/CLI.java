@@ -70,7 +70,7 @@ public class CLI {
         }
     }
 
-    private void promptNextTurn(Boolean turn) {
+    private void promptNextTurn(boolean turn) {
         System.out.println((turn ? "Black" : "White") + " turn: enter your move (e.g. 3 4):");
     }
 

@@ -1,4 +1,4 @@
-package Gomoku;
+package Gomoku.utilities;
 
 import javax.swing.*;
 import java.awt.*;

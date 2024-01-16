@@ -1,8 +1,9 @@
-package Gomoku.utilities;
+package Gomoku;
 
 import Gomoku.Board;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
+import Gomoku.utilities.Color;
 
 public class Move {
     private Integer x;

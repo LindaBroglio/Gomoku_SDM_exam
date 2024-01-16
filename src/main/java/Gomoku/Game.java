@@ -2,7 +2,6 @@ package Gomoku;
 
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.*;
-import Gomoku.utilities.Move;
 
 public class Game {
     private final Board board;
