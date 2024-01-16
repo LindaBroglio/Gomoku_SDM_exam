@@ -1,6 +1,6 @@
-import Gomoku.CLI;
-import Gomoku.GUI;
-import Gomoku.Exceptions.InputExceptions.QuitException;
+import it.units.Gomoku.CLI;
+import it.units.Gomoku.GUI;
+import it.units.Gomoku.Exceptions.InputExceptions.QuitException;
 
 import javax.swing.*;
 import java.util.Scanner;
