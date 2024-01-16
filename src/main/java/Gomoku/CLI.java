@@ -78,7 +78,7 @@ public class CLI {
         game.makeMove(readMove(isBlackTurn(), getMoveCount()));
     }
 
-    private Integer[] readMove(Boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
+    private Integer[] readMove(boolean turn, Integer moveCount) throws ResignException, InvalidFormatException {
         while (true) {
             String input = scanner.nextLine();
             try { return new InputValidator(turn, moveCount).validateInput(input); }
