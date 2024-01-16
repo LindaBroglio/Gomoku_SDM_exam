@@ -1,6 +1,6 @@
-import it.units.Gomoku.CLI;
-import it.units.Gomoku.GUI;
-import it.units.Gomoku.Exceptions.InputExceptions.QuitException;
+import it.units.gomoku.CLI;
+import it.units.gomoku.GUI;
+import it.units.gomoku.exceptions.inputexceptions.QuitException;
 
 import javax.swing.*;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Hello! Do you want to play Gomoku with a GUI or CLI? Enter 'GUI' or 'CLI' (or 'quit' to exit):");
+        System.out.println("Hello! Do you want to play gomoku with a GUI or CLI? Enter 'GUI' or 'CLI' (or 'quit' to exit):");
         boolean continueLoop = true;
         while (continueLoop) {
             String interfaceType = scanner.nextLine().trim();

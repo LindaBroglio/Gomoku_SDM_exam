@@ -1,6 +1,6 @@
-package it.units.Gomoku.Exceptions.InputExceptions;
+package it.units.gomoku.exceptions.inputexceptions;
 
-import it.units.Gomoku.Exceptions.GomokuException;
+import it.units.gomoku.exceptions.GomokuException;
 
 public class ResignException extends GomokuException {
     public ResignException(boolean turn) {

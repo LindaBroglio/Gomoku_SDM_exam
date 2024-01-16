@@ -1,8 +1,8 @@
-package it.units.Gomoku;
+package it.units.gomoku;
 
-import it.units.Gomoku.Exceptions.GameWonException;
-import it.units.Gomoku.Exceptions.InputExceptions.OutOfBoardException;
-import it.units.Gomoku.Exceptions.InputExceptions.TakenNodeException;
+import it.units.gomoku.exceptions.GameWonException;
+import it.units.gomoku.exceptions.inputexceptions.OutOfBoardException;
+import it.units.gomoku.exceptions.inputexceptions.TakenNodeException;
 
 public class Game {
     private final Board board;

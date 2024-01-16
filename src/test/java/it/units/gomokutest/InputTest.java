@@ -1,8 +1,8 @@
-package it.units.GomokuTest;
+package it.units.gomokutest;
 
-import it.units.Gomoku.Exceptions.InputExceptions.InvalidFormatException;
-import it.units.Gomoku.Exceptions.InputExceptions.QuitException;
-import it.units.Gomoku.utilities.InputValidator;
+import it.units.gomoku.exceptions.inputexceptions.InvalidFormatException;
+import it.units.gomoku.exceptions.inputexceptions.QuitException;
+import it.units.gomoku.utilities.InputValidator;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

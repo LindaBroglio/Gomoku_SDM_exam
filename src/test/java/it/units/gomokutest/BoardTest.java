@@ -1,7 +1,7 @@
-package it.units.GomokuTest;
+package it.units.gomokutest;
 
-import it.units.Gomoku.Board;
-import it.units.Gomoku.utilities.Color;
+import it.units.gomoku.Board;
+import it.units.gomoku.utilities.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

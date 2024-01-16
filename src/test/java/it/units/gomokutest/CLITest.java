@@ -1,8 +1,8 @@
-package it.units.GomokuTest;
+package it.units.gomokutest;
 
-import it.units.Gomoku.CLI;
-import it.units.Gomoku.Exceptions.GameWonException;
-import it.units.Gomoku.Exceptions.InputExceptions.*;
+import it.units.gomoku.CLI;
+import it.units.gomoku.exceptions.GameWonException;
+import it.units.gomoku.exceptions.inputexceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

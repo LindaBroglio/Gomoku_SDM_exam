@@ -1,7 +1,7 @@
-package it.units.GomokuTest;
+package it.units.gomokutest;
 
-import it.units.Gomoku.utilities.Color;
-import it.units.Gomoku.Node;
+import it.units.gomoku.utilities.Color;
+import it.units.gomoku.Node;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

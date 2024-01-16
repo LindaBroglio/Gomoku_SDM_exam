@@ -1,10 +1,10 @@
-package it.units.Gomoku;
+package it.units.gomoku;
 
-import it.units.Gomoku.Exceptions.GameWonException;
-import it.units.Gomoku.Exceptions.InputExceptions.OutOfBoardException;
-import it.units.Gomoku.Exceptions.InputExceptions.TakenNodeException;
-import it.units.Gomoku.utilities.BackgroundPanel;
-import it.units.Gomoku.utilities.CircleButton;
+import it.units.gomoku.exceptions.GameWonException;
+import it.units.gomoku.exceptions.inputexceptions.OutOfBoardException;
+import it.units.gomoku.exceptions.inputexceptions.TakenNodeException;
+import it.units.gomoku.utilities.BackgroundPanel;
+import it.units.gomoku.utilities.CircleButton;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class GUI {
         tempFrame.setVisible(true);
         Integer[] options = {15, 19};
         int selectedOption = JOptionPane.showOptionDialog(tempFrame,
-                        "Choose the board size:", "Let's play Gomoku!",
+                        "Choose the board size:", "Let's play gomoku!",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                         icon, options, options[0]);
         tempFrame.dispose();
@@ -60,7 +60,7 @@ public class GUI {
     }
 
     private JFrame createGridFrame() {
-        JFrame gridFrame = new JFrame("it/units/Gomoku");
+        JFrame gridFrame = new JFrame("it/units/gomoku");
         gridFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         return gridFrame;
     }
@@ -191,7 +191,7 @@ public class GUI {
     private void handleGameWon() {
         ImageIcon icon = createImageIcon(TEMPLE_IMAGE_PATH);
         int option = JOptionPane.showOptionDialog(boardPanel,
-                "Gomoku! " + (game.isBlackTurn() ? BLACK : WHITE) + " wins!" + System.lineSeparator() + "Do you want to play again?",
+                "gomoku! " + (game.isBlackTurn() ? BLACK : WHITE) + " wins!" + System.lineSeparator() + "Do you want to play again?",
                 "GOMOKU!",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,

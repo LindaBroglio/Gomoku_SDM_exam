@@ -1,8 +1,8 @@
-package it.units.Gomoku;
+package it.units.gomoku;
 
-import it.units.Gomoku.Exceptions.GameWonException;
-import it.units.Gomoku.utilities.InputValidator;
-import it.units.Gomoku.Exceptions.InputExceptions.*;
+import it.units.gomoku.exceptions.GameWonException;
+import it.units.gomoku.utilities.InputValidator;
+import it.units.gomoku.exceptions.inputexceptions.*;
 
 import java.util.Scanner;
 

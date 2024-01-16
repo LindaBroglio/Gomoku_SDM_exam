@@ -1,6 +1,6 @@
-package it.units.Gomoku;
+package it.units.gomoku;
 
-import it.units.Gomoku.utilities.Color;
+import it.units.gomoku.utilities.Color;
 
 public class Node {
     private Color color;

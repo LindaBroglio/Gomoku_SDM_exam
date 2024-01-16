@@ -1,6 +1,6 @@
-package it.units.Gomoku.Exceptions.InputExceptions;
+package it.units.gomoku.exceptions.inputexceptions;
 
-import it.units.Gomoku.Exceptions.GomokuException;
+import it.units.gomoku.exceptions.GomokuException;
 
 public class QuitException extends GomokuException {
     public QuitException() {super("Exiting the game, bye!");}

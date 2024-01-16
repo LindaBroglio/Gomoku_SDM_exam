@@ -1,8 +1,8 @@
-package it.units.Gomoku.utilities;
+package it.units.gomoku.utilities;
 
-import it.units.Gomoku.Exceptions.InputExceptions.InvalidFormatException;
-import it.units.Gomoku.Exceptions.InputExceptions.QuitException;
-import it.units.Gomoku.Exceptions.InputExceptions.ResignException;
+import it.units.gomoku.exceptions.inputexceptions.InvalidFormatException;
+import it.units.gomoku.exceptions.inputexceptions.QuitException;
+import it.units.gomoku.exceptions.inputexceptions.ResignException;
 
 public class InputValidator {
     private final Boolean turn;

@@ -1,4 +1,4 @@
-package it.units.Gomoku.utilities;
+package it.units.gomoku.utilities;
 
 public enum Color {
     EMPTY,
