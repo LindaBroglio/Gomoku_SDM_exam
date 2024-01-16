@@ -3,6 +3,7 @@ package Gomoku;
 import Gomoku.Exceptions.GameWonException;
 import Gomoku.Exceptions.InputExceptions.OutOfBoardException;
 import Gomoku.Exceptions.InputExceptions.TakenNodeException;
+import Gomoku.utilities.BackgroundPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,17 +29,13 @@ public class GUI {
         JFrame gridFrame = createGridFrame();
         createNodeButtons();
         JButton resignButton = createResignButton();
-
         JPanel mainPanel = createMainPanel(resignButton);
         setBackgroundPanel(gridFrame, mainPanel);
-        gridFrame.pack();
-        gridFrame.setLocationRelativeTo(null);
-        gridFrame.setResizable(false);
-        gridFrame.setVisible(true);
+        adjustAppearance(gridFrame);
     }
 
     private Integer chooseBoardSize() {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/temple.png")));
+        ImageIcon icon = createImageIcon("/temple.png");
         JFrame tempFrame = new JFrame();
         tempFrame.setAlwaysOnTop(true);
         tempFrame.setUndecorated(true);
@@ -53,6 +50,10 @@ public class GUI {
         tempFrame.dispose();
         if (selectedOption == JOptionPane.CLOSED_OPTION) return null;
         return options[selectedOption];
+    }
+
+    private void startNewGame(Integer[] gameSpecification) {
+        game = new Game(gameSpecification);
     }
 
     private JFrame createGridFrame() {
@@ -74,11 +75,11 @@ public class GUI {
     }
 
     private CircleButton createNodeButton(Integer[] coordinates, int cellSize) {
-        ImageIcon blackIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/blackStone.png")));
-        ImageIcon whiteIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/whiteStone.png")));
+        ImageIcon blackIcon = createImageIcon("/blackStone.png");
+        ImageIcon whiteIcon = createImageIcon("/whiteStone.png");
         CircleButton button = new CircleButton();
         button.setBounds((coordinates[0] * cellSize) - (cellSize / 2), (coordinates[1] * cellSize) - (cellSize / 2), cellSize, cellSize);
-        messageLabel.setText("Black turn!");
+        messageLabel.setText("Black turn: place your stone");
         button.addActionListener(e -> handleNodeButtonAction(button, coordinates, blackIcon, whiteIcon));
         return button;
     }
@@ -87,8 +88,8 @@ public class GUI {
         try {
             game.makeMove(coordinates);
             button.setCircleIcon(game.isBlackTurn() ? whiteIcon : blackIcon);
-            if (!game.boardIsNotFull()) handleDraw();
-            messageLabel.setText(game.isBlackTurn() ? "Black turn" : "White turn");
+            if (game.boardIsFull()) handleDraw();
+            messageLabel.setText((game.isBlackTurn() ? "Black turn:" : "White turn:") + " place your stone");
         } catch (TakenNodeException ex) {
             handleTakenNodeException();
         } catch (OutOfBoardException ex) {
@@ -114,7 +115,7 @@ public class GUI {
     }
 
     private JButton createResignButton() {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/temple.png")));
+        ImageIcon icon = createImageIcon("/temple.png");
         JButton resignButton = new JButton();
         resignButton.setPreferredSize(new Dimension(90, 30));
         resignButton.setText("Resign");
@@ -172,6 +173,13 @@ public class GUI {
         gridFrame.setContentPane(backgroundPanel);
     }
 
+    private void adjustAppearance(JFrame gridFrame) {
+        gridFrame.pack();
+        gridFrame.setLocationRelativeTo(null);
+        gridFrame.setResizable(false);
+        gridFrame.setVisible(true);
+    }
+
     private void restartGame() {
         JFrame oldFrame = (JFrame) SwingUtilities.getWindowAncestor(boardPanel);
         oldFrame.dispose();
@@ -179,7 +187,7 @@ public class GUI {
     }
 
     private void handleGameWon() {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/temple.png")));
+        ImageIcon icon = createImageIcon("/temple.png");
         int option = JOptionPane.showOptionDialog(
                 boardPanel,
                 "Gomoku! " + (game.isBlackTurn() ? "Black" : "White") + " wins!\nDo you want to play again?",
@@ -212,7 +220,9 @@ public class GUI {
                 try {
                     Image backgroundImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("/boardpanel.jpg")));
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
-                } catch  (IOException e) { LOGGER.log(Level.SEVERE, "Error loading background image", e);}
+                } catch (IOException e) {
+                    LOGGER.log(Level.SEVERE, "Error loading background image", e);
+                }
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setColor(Color.BLACK);
                 Stroke originalStroke = g2d.getStroke();
@@ -237,12 +247,8 @@ public class GUI {
         return boardPanel;
     }
 
-    private void startNewGame(Integer[] gameSpecification) {
-        game = new Game(gameSpecification);
-    }
-
     private void handleResignation() {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/temple.png")));
+        ImageIcon icon = createImageIcon("/temple.png");
         int option = JOptionPane.showOptionDialog(
                 boardPanel,
                 (game.isBlackTurn() ? "Black" : "White") + " has resigned: " +
@@ -259,7 +265,7 @@ public class GUI {
     }
 
     private void handleDraw() {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/temple.png")));
+        ImageIcon icon = createImageIcon("/temple.png");
         int option = JOptionPane.showOptionDialog(
                 boardPanel,
                 "Board is now full: the game ends in a draw! \nDo you want to start a new game?",
@@ -271,5 +277,14 @@ public class GUI {
                 null);
         if (option == JOptionPane.YES_OPTION) restartGame();
         else System.exit(0);
+    }
+
+    public ImageIcon createImageIcon(String imageName) {
+        try {
+            return new ImageIcon(Objects.requireNonNull(getClass().getResource(imageName)));
+        } catch (NullPointerException e) {
+            LOGGER.log(Level.SEVERE, "Image not found", e);
+        }
+        return null;
     }
 }

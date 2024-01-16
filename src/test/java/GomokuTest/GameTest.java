@@ -64,6 +64,6 @@ class GameTest {
             game.makeMove(new Integer[]{3, 3});
             game.makeMove(new Integer[]{3, 1});
         });
-        assertFalse(game.boardIsNotFull());
+        assertTrue(game.boardIsFull());
     }
 }

@@ -135,7 +135,8 @@ class CLITest {
                         "2 1" + System.lineSeparator() +
                         "1 2" + System.lineSeparator() +
                         "2 2" + System.lineSeparator() +
-                        "1 3" + System.lineSeparator();
+                        "1 3" + System.lineSeparator() +
+                        "no" + System.lineSeparator();
         ByteArrayInputStream in = new ByteArrayInputStream(simulatedUserInput.getBytes());
         Scanner scanner = new Scanner(in);
         assertDoesNotThrow(() -> cli = new CLI(scanner));

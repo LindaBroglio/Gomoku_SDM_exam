@@ -10,11 +10,11 @@ public class Game {
     private Integer moveCount;
     private final Move move;
 
-    public Game(Integer[] gameSpecification) {
+    public Game(Integer[] gameSpecifications) {
         this.moveCount = 0;
         this.blackTurn = true;
-        Integer boardSize = gameSpecification[0];
-        Integer howManyToWin = gameSpecification[1];
+        Integer boardSize = gameSpecifications[0];
+        Integer howManyToWin = gameSpecifications[1];
         this.board = new Board(boardSize, howManyToWin);
         this.move = new Move(board);
     }
@@ -22,17 +22,17 @@ public class Game {
     public void makeMove(Integer[] coordinates) throws TakenNodeException, OutOfBoardException, GameWonException {
         move.setX(coordinates[0]);
         move.setY(coordinates[1]);
-        move.makeMove(blackTurn);
+        move.tryToPlaceStone(blackTurn);
         increaseMoveCount();
-        move.checkWinner(blackTurn);
+        move.checkForWinner(blackTurn);
         nextTurn();
     }
 
-    public void displayBoard() { board.displayBoard(); }
+    public void displayBoard() { board.display(); }
     private void nextTurn() { blackTurn = !blackTurn; }
     private void increaseMoveCount() { moveCount++; }
     public Integer getMoveCount() { return moveCount; }
-    public Integer getBoardSize() { return board.getBoardSize(); }
-    public boolean boardIsNotFull() { return moveCount < getBoardSize() * getBoardSize(); }
+    public Integer getBoardSize() { return board.getSize(); }
+    public boolean boardIsFull() { return moveCount >= getBoardSize() * getBoardSize(); }
     public boolean isBlackTurn() { return blackTurn; }
 }

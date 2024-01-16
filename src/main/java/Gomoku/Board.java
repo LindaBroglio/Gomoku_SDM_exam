@@ -24,7 +24,7 @@ public class Board {
         return this.grid;
     }
 
-    public void placeStone(Integer x, Integer y, Color color)  {
+    public void placeStoneAtPosition(Integer x, Integer y, Color color)  {
         this.grid[x][y].setColor(color);
     }
 
@@ -33,30 +33,30 @@ public class Board {
     }
 
     private boolean checkInAllDirections(Integer row, Integer col){
-        return isWinningHorizontalStreak(row, col) ||
-                isWinningVerticalStreak(row, col) ||
-                isWinningDiagonalStreak(row, col, true) || // Main diagonal
-                isWinningDiagonalStreak(row, col, false);  // Non-main diagonal
+        return checkForHorizontalStreak(row, col) ||
+                checkForVerticalStreak(row, col) ||
+                checkForDiagonalStreak(row, col, true) ||
+                checkForDiagonalStreak(row, col, false);
     }
 
-    private boolean isWinningHorizontalStreak(Integer row, Integer col) {
-        int count = 1; // Include the current stone
-        count += countConsecutiveStonesInDirection(row, col, 0, -1); // Left direction
-        count += countConsecutiveStonesInDirection(row, col, 0, 1);  // Right direction
+    private boolean checkForHorizontalStreak(Integer row, Integer col) {
+        int count = 1;
+        count += countConsecutiveStonesInDirection(row, col, 0, -1); // Left
+        count += countConsecutiveStonesInDirection(row, col, 0, 1);  // Right
         return count >= howManyToWin;
     }
 
-    private boolean isWinningVerticalStreak(Integer row, Integer col) {
-        int count = 1; // Include the current stone
-        count += countConsecutiveStonesInDirection(row, col, -1, 0); // Up direction
-        count += countConsecutiveStonesInDirection(row, col, 1, 0);  // Down direction
+    private boolean checkForVerticalStreak(Integer row, Integer col) {
+        int count = 1;
+        count += countConsecutiveStonesInDirection(row, col, -1, 0); // Up
+        count += countConsecutiveStonesInDirection(row, col, 1, 0);  // Down
         return count >= howManyToWin;
     }
 
-    private boolean isWinningDiagonalStreak(Integer row, Integer col, boolean isMainDiagonal) {
-        int count = 1; // Include the current stone
-        count += countConsecutiveStonesInDirection(row, col, -1, isMainDiagonal ? -1 : 1); // Up-left or Up-right direction
-        count += countConsecutiveStonesInDirection(row, col, 1, isMainDiagonal ? 1 : -1);  // Down-right or Down-left direction
+    private boolean checkForDiagonalStreak(Integer row, Integer col, boolean isMainDiagonal) {
+        int count = 1;
+        count += countConsecutiveStonesInDirection(row, col, -1, isMainDiagonal ? -1 : 1); // Up-left or Up-right
+        count += countConsecutiveStonesInDirection(row, col, 1, isMainDiagonal ? 1 : -1);  // Down-right or Down-left
         return count >= howManyToWin;
     }
 
@@ -67,7 +67,7 @@ public class Board {
             int nextRow = startRow + rowIncrement * offset;
             int nextCol = startCol + colIncrement * offset;
             if (isPositionOutOfBounds(nextRow, nextCol) || isStoneColorDifferent(nextRow, nextCol, stoneColor)) {
-                break; // Stop counting if out of bounds or color is different
+                break; // Stop counting if out of bounds or if color is different
             }
             consecutiveCount++;
         }
@@ -86,7 +86,7 @@ public class Board {
         return grid[i][j].getColor();
     }
 
-    public void displayBoard() {
+    public void display() {
         int maxNumberWidth = String.valueOf(boardSize).length();
 
         System.out.print(" ".repeat(maxNumberWidth));
@@ -115,7 +115,7 @@ public class Board {
         System.out.println();
     }
 
-    public Integer getBoardSize() {
+    public Integer getSize() {
         return boardSize;
     }
 

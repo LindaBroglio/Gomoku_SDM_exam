@@ -28,7 +28,7 @@ class MoveTest {
         assertDoesNotThrow(() -> {
             move.setX(2);
             move.setY(2);
-            move.makeMove(blackTurn);
+            move.tryToPlaceStone(blackTurn);
         });
     }
 
@@ -37,15 +37,15 @@ class MoveTest {
     void outOfBoundsMoveThrowsException(int x, int y) {
         move.setX(x);
         move.setY(y);
-        assertThrows(OutOfBoardException.class, () -> move.makeMove(blackTurn));
+        assertThrows(OutOfBoardException.class, () -> move.tryToPlaceStone(blackTurn));
     }
 
     @Test
     void sameMoveTwiceThrowsException() {
         move.setX(5);
         move.setY(5);
-        assertDoesNotThrow(() -> move.makeMove(blackTurn));
-        assertThrows(TakenNodeException.class, () -> move.makeMove(whiteTurn));
+        assertDoesNotThrow(() -> move.tryToPlaceStone(blackTurn));
+        assertThrows(TakenNodeException.class, () -> move.tryToPlaceStone(whiteTurn));
     }
 
     @Test
@@ -53,8 +53,8 @@ class MoveTest {
         move.setX(5);
         move.setY(5);
         assertDoesNotThrow(() -> {
-            move.makeMove(blackTurn);
-            move.checkWinner(blackTurn);
+            move.tryToPlaceStone(blackTurn);
+            move.checkForWinner(blackTurn);
         });
     }
 
@@ -64,6 +64,6 @@ class MoveTest {
             move.setX(i);
             move.setY(5);
         }
-        assertThrows(GameWonException.class, () -> move.checkWinner(blackTurn));
+        assertThrows(GameWonException.class, () -> move.checkForWinner(blackTurn));
     }
 }
