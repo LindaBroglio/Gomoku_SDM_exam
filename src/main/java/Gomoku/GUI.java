@@ -36,6 +36,8 @@ public class GUI {
         gridFrame.setVisible(true);
     }
 
+    private void startNewGame(Integer[] gameSpecification) { game = new Game(gameSpecification); }
+
     private JFrame createGridFrame() {
         JFrame gridFrame = new JFrame("Gomoku");
         gridFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -55,8 +57,8 @@ public class GUI {
     }
 
     private CircleButton createButton(Integer[] coordinates, int cellSize) {
-        ImageIcon blackIcon = new ImageIcon(getClass().getResource("/blackStone.png"));
-        ImageIcon whiteIcon = new ImageIcon(getClass().getResource("/whiteStone.png"));
+        ImageIcon blackIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/blackStone.png")));
+        ImageIcon whiteIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/whiteStone.png")));
         CircleButton button = new CircleButton();
         button.setBounds((coordinates[0] * cellSize) - (cellSize / 2), (coordinates[1] * cellSize) - (cellSize / 2), cellSize, cellSize);
         messageLabel.setText("Black turn!");
@@ -92,6 +94,17 @@ public class GUI {
         handleGameWon();
     }
 
+    private void handleGameWon() {
+        int option = JOptionPane.showOptionDialog(boardPanel,
+                "Gomoku! " + (game.isBlackTurn() ? "Black" : "White") +
+                        " wins!" + System.lineSeparator() +
+                        "Do you want to start a new game?",
+                "GOMOKU!", JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null, null,null);
+        if (option == JOptionPane.YES_OPTION) restartGame();
+        else System.exit(0);
+    }
 
     private JPanel createMainPanel(JButton resignButton) {
         JPanel boardContainerPanel = new JPanel(new BorderLayout());
@@ -149,18 +162,6 @@ public class GUI {
         return resignButton;
     }
 
-    private void handleGameWon() {
-        int option = JOptionPane.showOptionDialog(boardPanel,
-                "Gomoku! " + (game.isBlackTurn() ? "Black" : "White") +
-                        " wins!" + System.lineSeparator() +
-                        "Do you want to start a new game?",
-                "GOMOKU!", JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null, null,null);
-        if (option == JOptionPane.YES_OPTION) restartGame();
-        else System.exit(0);
-    }
-
     private void restartGame() {
         JFrame oldFrame = (JFrame) SwingUtilities.getWindowAncestor(boardPanel);
         oldFrame.dispose();
@@ -202,8 +203,6 @@ public class GUI {
         boardPanel.setLayout(null);
         return boardPanel;
     }
-
-    private void startNewGame(Integer[] gameSpecification) { game = new Game(gameSpecification); }
 
     private Integer chooseBoardSize() {
         JFrame tempFrame = new JFrame();
@@ -251,7 +250,7 @@ public class GUI {
         else System.exit(0);
     }
 
-    class CircleButton extends JButton {
+    static class CircleButton extends JButton {
         private ImageIcon circleIcon;
 
         public CircleButton() {
