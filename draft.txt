@@ -1,29 +1,29 @@
 To do:
 V - allow user to input moves from terminal
 V - allow user to quit
-- determine winner
-  - define neighbouring nodes
+V - determine winner
+  V - define neighbouring nodes
 V - assess illegal moves
-- add numbers on board
-- get boardSize() from input
+V - add numbers on board
+V - get boardSize() from input
 
 Exceptions:
 V - illegal board size
 V - illegal move
    V - out of board
    V - already occupied node
-- how many to win < board size!
+V - how many to win < board size!
 
 Test:
 - Board test
 V - Color test
-- Game test
+V- Game test
 V - Node test
-- does the game end when i type quit --> does white win if black resigns
-- does it ask again when white writes a typo --> is it still white turn
-- does the right team win --> does black win at turn 5
-- does it end in draw when board is full and there is no winner
-- tests that use System.setIn(in)
+V - does the game end when i type quit --> does white win if black resigns
+V - does it ask again when white writes a typo --> is it still white turn
+V - does the right team win --> does black win at turn 5
+V - does it end in draw when board is full and there is no winner
+V - tests that use System.setIn(in)
 
 Refactoring ideas:
 V - create a class containing static methods and members for board specification
@@ -31,20 +31,9 @@ V - create a class containing static methods and members for board specification
 Add:
 - variant where +5 stones does not count
 
-Done:
-- reorganizing test classes: created InputTest, MoveTest; all methods are tested
-
-To do:
-- Create a GameTest class and maybe a MainTestClass
-
 Written on sunday 14:
-- don't do System.exit(0) when typo in "GUI or CLI"
+V - don't do System.exit(0) when typo in "GUI or CLI"
 V - fix board size error (it's 1 row and 1 col smaller) --> outofboard exception missing on right and bottom
 V - switch from squares to circles
-- in settings, show me 15 first, then 19
-- fix game (CLI) tests
-- exception errors to be shown on the board window and not a new one
-- when exiting with the default exit button, ask if you're sure
-    (you're exiting the game, are you sure? yes/no) especially during the game.
-    --> add quit button during the game so that resign exception can be thrown
-- from CLI let choose just between 15 and 19 for board size
+V - fix game (CLI) tests
+V - exception errors to be shown on the board window and not a new one
